@@ -1,4 +1,4 @@
-import express from 'express';
+import {express} from '../../deps.ts';
 import { getRooms, getRoomsById, createRooms, updateRooms, deleteRooms } from '../controllers/RoomController.js'
 const router = express.Router();
 

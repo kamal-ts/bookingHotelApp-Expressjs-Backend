@@ -1,6 +1,15 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '../../generated/client/deno/edge.js'
+import {config} from "https://deno.land/std@0.163.0/dotenv/mod.ts"
 
-const prisma = new PrismaClient()
+const envVars = await config()
+
+const prisma = new PrismaClient({
+    datasources:{
+        db: {
+            url: envVars.DATABASE_URL
+        }
+    }
+})
 
 export const getHotel = async (req, res) => {
     try {

@@ -1,4 +1,4 @@
-import express from 'express';
+import {express} from '../../deps.ts';
 
 const router = express.Router();
 

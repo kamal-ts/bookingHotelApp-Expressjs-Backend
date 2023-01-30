@@ -1,14 +1,11 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import HotelRoute from './routes/hotels.js'
-import UserRoute from './routes/users.js';
+import {express} from './deps.ts';
+import {cors} from './deps.ts';
+import HotelRoute from './src/routes/hotels.js'
+import UserRoute from './src/routes/users.js';
 
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient()
+// import { PrismaClient } from '@prisma/client';
+// const prisma = new PrismaClient()
 
-
-dotenv.config();
 
 const app = express();
 const port = 5000;
@@ -23,6 +20,6 @@ app.get("/", (_req, res) => {
 })
 
 app.listen(port, () => {
-    prisma.$connect
+    // prisma.$connect
     console.log(`server running on port ${port}`)
 })
