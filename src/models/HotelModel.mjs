@@ -1,4 +1,4 @@
-import {mongoose} from '../../deps.ts';
+import mongoose from 'mongoose';
 
 const {Schema} = mongoose;
 
