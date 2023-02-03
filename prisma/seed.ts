@@ -11,7 +11,7 @@ const prisma = new PrismaClient({
   },
 });
 
-const dinosaurData: Prisma.DinosaurCreateInput[] = [
+const dinosaurData: Prisma.Hote[] = [
   {
     name: "Aardonyx",
     description: "An early stage in the evolution of sauropods.",

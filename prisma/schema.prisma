@@ -14,8 +14,6 @@ generator client {
 
 model Hotel {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
   type          String
   city          String
   address       String
@@ -41,8 +39,6 @@ model Photo {
 
 model Room {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
   name      String
   status    Boolean  @default(false)
   hotel     Hotel    @relation(fields: [hotelId], references: [id])
@@ -55,7 +51,5 @@ model User {
   email     String   @unique
   password  String
   role      String   @default("USER")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
   hotel     Hotel[]
 }
