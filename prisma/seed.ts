@@ -11,18 +11,24 @@ const prisma = new PrismaClient({
   },
 });
 
-const dinosaurData: Prisma.Hote[] = [
+const userData: Prisma.UserCreateInput[] = [
   {
-    name: "Aardonyx",
-    description: "An early stage in the evolution of sauropods.",
+    name: "kamal",
+    email: "kamaluddin1623@gmail.com",
+    password: "123",
+
   },
   {
-    name: "Abelisaurus",
-    description: "Abel's lizard has been reconstructed from a single skull.",
+    name: "wais",
+    email: "wais@gmail.com",
+    password: "123",
+
   },
   {
-    name: "Acanthopholis",
-    description: "No, it's not a city in Greece.",
+    name: "andis",
+    email: "andis@gmail.com",
+    password: "123",
+
   },
 ];
 
@@ -30,11 +36,11 @@ const dinosaurData: Prisma.Hote[] = [
  * Seed the database.
  */
 
-for (const u of dinosaurData) {
-  const dinosaur = await prisma.dinosaur.create({
+for (const u of userData) {
+  const user = await prisma.user.create({
     data: u,
   });
-  console.log(`Created dinosaur with id: ${dinosaur.id}`);
+  console.log(`Created dinosaur with id: ${user.id}`);
 }
 console.log(`Seeding finished.`);
 
