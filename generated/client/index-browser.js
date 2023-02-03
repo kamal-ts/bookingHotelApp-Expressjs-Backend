@@ -89,10 +89,27 @@ Prisma.NullTypes = {
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 function makeEnum(x) { return x; }
 
-exports.Prisma.DinosaurScalarFieldEnum = makeEnum({
+exports.Prisma.HotelScalarFieldEnum = makeEnum({
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  type: 'type',
+  city: 'city',
+  address: 'address',
+  distance: 'distance',
+  title: 'title',
+  name: 'name',
+  desc: 'desc',
+  rating: 'rating',
+  cheapestPrice: 'cheapestPrice',
+  featured: 'featured',
+  userId: 'userId'
+});
+
+exports.Prisma.PhotoScalarFieldEnum = makeEnum({
   id: 'id',
   name: 'name',
-  description: 'description'
+  hotelId: 'hotelId'
 });
 
 exports.Prisma.QueryMode = makeEnum({
@@ -100,21 +117,36 @@ exports.Prisma.QueryMode = makeEnum({
   insensitive: 'insensitive'
 });
 
+exports.Prisma.RoomScalarFieldEnum = makeEnum({
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  name: 'name',
+  status: 'status',
+  hotelId: 'hotelId'
+});
+
 exports.Prisma.SortOrder = makeEnum({
   asc: 'asc',
   desc: 'desc'
 });
 
-exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
-  ReadUncommitted: 'ReadUncommitted',
-  ReadCommitted: 'ReadCommitted',
-  RepeatableRead: 'RepeatableRead',
-  Serializable: 'Serializable'
+exports.Prisma.UserScalarFieldEnum = makeEnum({
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  password: 'password',
+  role: 'role',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 });
 
 
 exports.Prisma.ModelName = makeEnum({
-  Dinosaur: 'Dinosaur'
+  Hotel: 'Hotel',
+  Photo: 'Photo',
+  Room: 'Room',
+  User: 'User'
 });
 
 /**

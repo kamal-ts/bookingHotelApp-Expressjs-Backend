@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
@@ -12,8 +12,50 @@ generator client {
   output          = "../generated/client"
 }
 
-model Dinosaur {
-  id          Int    @id @default(autoincrement())
-  name        String @unique
-  description String
+model Hotel {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  type          String
+  city          String
+  address       String
+  distance      String
+  title         String
+  name          String
+  desc          String
+  rating        Int      @default(0)
+  cheapestPrice Int
+  featured      Boolean  @default(false)
+  photos        Photo[]
+  rooms         Room[]
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String   @db.ObjectId
+}
+
+model Photo {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  name    String
+  hotel   Hotel  @relation(fields: [hotelId], references: [id])
+  hotelId String @db.ObjectId
+}
+
+model Room {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String
+  status    Boolean  @default(false)
+  hotel     Hotel    @relation(fields: [hotelId], references: [id])
+  hotelId   String   @db.ObjectId
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String   @unique
+  password  String
+  role      String   @default("USER")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  hotel     Hotel[]
 }
