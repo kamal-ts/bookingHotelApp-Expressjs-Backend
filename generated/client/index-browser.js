@@ -102,7 +102,9 @@ exports.Prisma.HotelScalarFieldEnum = makeEnum({
   cheapestPrice: 'cheapestPrice',
   featured: 'featured',
   photos: 'photos',
-  userId: 'userId'
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 });
 
 exports.Prisma.QueryMode = makeEnum({
@@ -115,7 +117,9 @@ exports.Prisma.RoomScalarFieldEnum = makeEnum({
   title: 'title',
   price: 'price',
   maxPeople: 'maxPeople',
-  hotelId: 'hotelId'
+  hotelId: 'hotelId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 });
 
 exports.Prisma.SortOrder = makeEnum({
@@ -128,7 +132,9 @@ exports.Prisma.UserScalarFieldEnum = makeEnum({
   username: 'username',
   email: 'email',
   password: 'password',
-  role: 'role'
+  role: 'role',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 });
 
 

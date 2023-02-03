@@ -39,6 +39,8 @@ export type Hotel = {
   featured: boolean
   photos: string[]
   userId: string
+  createdAt: Date
+  updatedAt: Date
 }
 
 /**
@@ -52,6 +54,8 @@ export type Room = {
   maxPeople: number
   roomNumber: RoomNumber[]
   hotelId: string
+  createdAt: Date
+  updatedAt: Date
 }
 
 /**
@@ -64,6 +68,8 @@ export type User = {
   email: string
   password: string
   role: string
+  createdAt: Date
+  updatedAt: Date
 }
 
 
@@ -1053,6 +1059,8 @@ export namespace Prisma {
     cheapestPrice: number | null
     featured: boolean | null
     userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type HotelMaxAggregateOutputType = {
@@ -1068,6 +1076,8 @@ export namespace Prisma {
     cheapestPrice: number | null
     featured: boolean | null
     userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type HotelCountAggregateOutputType = {
@@ -1084,6 +1094,8 @@ export namespace Prisma {
     featured: number
     photos: number
     userId: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -1111,6 +1123,8 @@ export namespace Prisma {
     cheapestPrice?: true
     featured?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type HotelMaxAggregateInputType = {
@@ -1126,6 +1140,8 @@ export namespace Prisma {
     cheapestPrice?: true
     featured?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type HotelCountAggregateInputType = {
@@ -1142,6 +1158,8 @@ export namespace Prisma {
     featured?: true
     photos?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -1246,6 +1264,8 @@ export namespace Prisma {
     featured: boolean
     photos: string[]
     userId: string
+    createdAt: Date
+    updatedAt: Date
     _count: HotelCountAggregateOutputType | null
     _avg: HotelAvgAggregateOutputType | null
     _sum: HotelSumAggregateOutputType | null
@@ -1283,6 +1303,8 @@ export namespace Prisma {
     rooms?: boolean | Hotel$roomsArgs
     user?: boolean | UserArgs
     userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     _count?: boolean | HotelCountOutputTypeArgs
   }
 
@@ -2164,6 +2186,8 @@ export namespace Prisma {
     price: number | null
     maxPeople: number | null
     hotelId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type RoomMaxAggregateOutputType = {
@@ -2172,6 +2196,8 @@ export namespace Prisma {
     price: number | null
     maxPeople: number | null
     hotelId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type RoomCountAggregateOutputType = {
@@ -2180,6 +2206,8 @@ export namespace Prisma {
     price: number
     maxPeople: number
     hotelId: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -2200,6 +2228,8 @@ export namespace Prisma {
     price?: true
     maxPeople?: true
     hotelId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type RoomMaxAggregateInputType = {
@@ -2208,6 +2238,8 @@ export namespace Prisma {
     price?: true
     maxPeople?: true
     hotelId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type RoomCountAggregateInputType = {
@@ -2216,6 +2248,8 @@ export namespace Prisma {
     price?: true
     maxPeople?: true
     hotelId?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -2312,6 +2346,8 @@ export namespace Prisma {
     price: number
     maxPeople: number
     hotelId: string
+    createdAt: Date
+    updatedAt: Date
     _count: RoomCountAggregateOutputType | null
     _avg: RoomAvgAggregateOutputType | null
     _sum: RoomSumAggregateOutputType | null
@@ -2341,6 +2377,8 @@ export namespace Prisma {
     roomNumber?: boolean | RoomNumberArgs
     hotel?: boolean | HotelArgs
     hotelId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
 
@@ -3183,6 +3221,8 @@ export namespace Prisma {
     email: string | null
     password: string | null
     role: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -3191,6 +3231,8 @@ export namespace Prisma {
     email: string | null
     password: string | null
     role: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -3199,6 +3241,8 @@ export namespace Prisma {
     email: number
     password: number
     role: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -3209,6 +3253,8 @@ export namespace Prisma {
     email?: true
     password?: true
     role?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -3217,6 +3263,8 @@ export namespace Prisma {
     email?: true
     password?: true
     role?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -3225,6 +3273,8 @@ export namespace Prisma {
     email?: true
     password?: true
     role?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -3307,6 +3357,8 @@ export namespace Prisma {
     email: string
     password: string
     role: string
+    createdAt: Date
+    updatedAt: Date
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -3333,6 +3385,8 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     hotel?: boolean | User$hotelArgs
+    createdAt?: boolean
+    updatedAt?: boolean
     _count?: boolean | UserCountOutputTypeArgs
   }
 
@@ -4200,7 +4254,9 @@ export namespace Prisma {
     cheapestPrice: 'cheapestPrice',
     featured: 'featured',
     photos: 'photos',
-    userId: 'userId'
+    userId: 'userId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type HotelScalarFieldEnum = (typeof HotelScalarFieldEnum)[keyof typeof HotelScalarFieldEnum]
@@ -4219,7 +4275,9 @@ export namespace Prisma {
     title: 'title',
     price: 'price',
     maxPeople: 'maxPeople',
-    hotelId: 'hotelId'
+    hotelId: 'hotelId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof RoomScalarFieldEnum]
@@ -4238,7 +4296,9 @@ export namespace Prisma {
     username: 'username',
     email: 'email',
     password: 'password',
-    role: 'role'
+    role: 'role',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -4268,6 +4328,8 @@ export namespace Prisma {
     rooms?: RoomListRelationFilter
     user?: XOR<UserRelationFilter, UserWhereInput>
     userId?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
   }
 
   export type HotelOrderByWithRelationInput = {
@@ -4286,6 +4348,8 @@ export namespace Prisma {
     rooms?: RoomOrderByRelationAggregateInput
     user?: UserOrderByWithRelationInput
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type HotelWhereUniqueInput = {
@@ -4306,6 +4370,8 @@ export namespace Prisma {
     featured?: SortOrder
     photos?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: HotelCountOrderByAggregateInput
     _avg?: HotelAvgOrderByAggregateInput
     _max?: HotelMaxOrderByAggregateInput
@@ -4330,6 +4396,8 @@ export namespace Prisma {
     featured?: BoolWithAggregatesFilter | boolean
     photos?: StringNullableListFilter
     userId?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
   export type RoomWhereInput = {
@@ -4343,6 +4411,8 @@ export namespace Prisma {
     roomNumber?: XOR<RoomNumberCompositeListFilter, Enumerable<RoomNumberObjectEqualityInput>>
     hotel?: XOR<HotelRelationFilter, HotelWhereInput>
     hotelId?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
   }
 
   export type RoomOrderByWithRelationInput = {
@@ -4353,6 +4423,8 @@ export namespace Prisma {
     roomNumber?: RoomNumberOrderByCompositeAggregateInput
     hotel?: HotelOrderByWithRelationInput
     hotelId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type RoomWhereUniqueInput = {
@@ -4365,6 +4437,8 @@ export namespace Prisma {
     price?: SortOrder
     maxPeople?: SortOrder
     hotelId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: RoomCountOrderByAggregateInput
     _avg?: RoomAvgOrderByAggregateInput
     _max?: RoomMaxOrderByAggregateInput
@@ -4381,6 +4455,8 @@ export namespace Prisma {
     price?: IntWithAggregatesFilter | number
     maxPeople?: IntWithAggregatesFilter | number
     hotelId?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
   export type UserWhereInput = {
@@ -4393,6 +4469,8 @@ export namespace Prisma {
     password?: StringFilter | string
     role?: StringFilter | string
     hotel?: HotelListRelationFilter
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
   }
 
   export type UserOrderByWithRelationInput = {
@@ -4402,6 +4480,8 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     hotel?: HotelOrderByRelationAggregateInput
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UserWhereUniqueInput = {
@@ -4416,6 +4496,8 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -4430,6 +4512,8 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter | string
     password?: StringWithAggregatesFilter | string
     role?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
   export type HotelCreateInput = {
@@ -4447,6 +4531,8 @@ export namespace Prisma {
     photos?: HotelCreatephotosInput | Enumerable<string>
     rooms?: RoomCreateNestedManyWithoutHotelInput
     user: UserCreateNestedOneWithoutHotelInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type HotelUncheckedCreateInput = {
@@ -4464,6 +4550,8 @@ export namespace Prisma {
     photos?: HotelCreatephotosInput | Enumerable<string>
     rooms?: RoomUncheckedCreateNestedManyWithoutHotelInput
     userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type HotelUpdateInput = {
@@ -4480,6 +4568,8 @@ export namespace Prisma {
     photos?: HotelUpdatephotosInput | Enumerable<string>
     rooms?: RoomUpdateManyWithoutHotelNestedInput
     user?: UserUpdateOneRequiredWithoutHotelNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HotelUncheckedUpdateInput = {
@@ -4496,6 +4586,8 @@ export namespace Prisma {
     photos?: HotelUpdatephotosInput | Enumerable<string>
     rooms?: RoomUncheckedUpdateManyWithoutHotelNestedInput
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HotelCreateManyInput = {
@@ -4512,6 +4604,8 @@ export namespace Prisma {
     featured?: boolean
     photos?: HotelCreatephotosInput | Enumerable<string>
     userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type HotelUpdateManyMutationInput = {
@@ -4526,6 +4620,8 @@ export namespace Prisma {
     cheapestPrice?: IntFieldUpdateOperationsInput | number
     featured?: BoolFieldUpdateOperationsInput | boolean
     photos?: HotelUpdatephotosInput | Enumerable<string>
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HotelUncheckedUpdateManyInput = {
@@ -4541,6 +4637,8 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     photos?: HotelUpdatephotosInput | Enumerable<string>
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RoomCreateInput = {
@@ -4550,6 +4648,8 @@ export namespace Prisma {
     maxPeople: number
     roomNumber?: XOR<RoomNumberListCreateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
     hotel: HotelCreateNestedOneWithoutRoomsInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type RoomUncheckedCreateInput = {
@@ -4559,6 +4659,8 @@ export namespace Prisma {
     maxPeople: number
     roomNumber?: XOR<RoomNumberListCreateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
     hotelId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type RoomUpdateInput = {
@@ -4567,6 +4669,8 @@ export namespace Prisma {
     maxPeople?: IntFieldUpdateOperationsInput | number
     roomNumber?: XOR<RoomNumberListUpdateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
     hotel?: HotelUpdateOneRequiredWithoutRoomsNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RoomUncheckedUpdateInput = {
@@ -4575,6 +4679,8 @@ export namespace Prisma {
     maxPeople?: IntFieldUpdateOperationsInput | number
     roomNumber?: XOR<RoomNumberListUpdateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
     hotelId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RoomCreateManyInput = {
@@ -4584,6 +4690,8 @@ export namespace Prisma {
     maxPeople: number
     roomNumber?: XOR<RoomNumberListCreateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
     hotelId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type RoomUpdateManyMutationInput = {
@@ -4591,6 +4699,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     maxPeople?: IntFieldUpdateOperationsInput | number
     roomNumber?: XOR<RoomNumberListUpdateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RoomUncheckedUpdateManyInput = {
@@ -4599,6 +4709,8 @@ export namespace Prisma {
     maxPeople?: IntFieldUpdateOperationsInput | number
     roomNumber?: XOR<RoomNumberListUpdateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
     hotelId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserCreateInput = {
@@ -4608,6 +4720,8 @@ export namespace Prisma {
     password: string
     role?: string
     hotel?: HotelCreateNestedManyWithoutUserInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type UserUncheckedCreateInput = {
@@ -4617,6 +4731,8 @@ export namespace Prisma {
     password: string
     role?: string
     hotel?: HotelUncheckedCreateNestedManyWithoutUserInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type UserUpdateInput = {
@@ -4625,6 +4741,8 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     hotel?: HotelUpdateManyWithoutUserNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUncheckedUpdateInput = {
@@ -4633,6 +4751,8 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
     hotel?: HotelUncheckedUpdateManyWithoutUserNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserCreateManyInput = {
@@ -4641,6 +4761,8 @@ export namespace Prisma {
     email: string
     password: string
     role?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type UserUpdateManyMutationInput = {
@@ -4648,6 +4770,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -4655,6 +4779,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter = {
@@ -4707,6 +4833,17 @@ export namespace Prisma {
     isNot?: UserWhereInput
   }
 
+  export type DateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
+  }
+
   export type RoomOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -4725,6 +4862,8 @@ export namespace Prisma {
     featured?: SortOrder
     photos?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type HotelAvgOrderByAggregateInput = {
@@ -4745,6 +4884,8 @@ export namespace Prisma {
     cheapestPrice?: SortOrder
     featured?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type HotelMinOrderByAggregateInput = {
@@ -4760,6 +4901,8 @@ export namespace Prisma {
     cheapestPrice?: SortOrder
     featured?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type HotelSumOrderByAggregateInput = {
@@ -4809,6 +4952,20 @@ export namespace Prisma {
     _max?: NestedBoolFilter
   }
 
+  export type DateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
+  }
+
   export type RoomNumberCompositeListFilter = {
     equals?: Enumerable<RoomNumberObjectEqualityInput>
     every?: RoomNumberWhereInput
@@ -4838,6 +4995,8 @@ export namespace Prisma {
     price?: SortOrder
     maxPeople?: SortOrder
     hotelId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type RoomAvgOrderByAggregateInput = {
@@ -4851,6 +5010,8 @@ export namespace Prisma {
     price?: SortOrder
     maxPeople?: SortOrder
     hotelId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type RoomMinOrderByAggregateInput = {
@@ -4859,6 +5020,8 @@ export namespace Prisma {
     price?: SortOrder
     maxPeople?: SortOrder
     hotelId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type RoomSumOrderByAggregateInput = {
@@ -4882,6 +5045,8 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -4890,6 +5055,8 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -4898,6 +5065,8 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type HotelCreatephotosInput = {
@@ -4965,6 +5134,10 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutHotelInput
     connect?: UserWhereUniqueInput
     update?: XOR<UserUpdateWithoutHotelInput, UserUncheckedUpdateWithoutHotelInput>
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type RoomUncheckedUpdateManyWithoutHotelNestedInput = {
@@ -5083,6 +5256,17 @@ export namespace Prisma {
     not?: NestedBoolFilter | boolean
   }
 
+  export type NestedDateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
+  }
+
   export type NestedStringWithAggregatesFilter = {
     equals?: string
     in?: Enumerable<string>
@@ -5135,6 +5319,20 @@ export namespace Prisma {
     _max?: NestedBoolFilter
   }
 
+  export type NestedDateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
+  }
+
   export type RoomNumberWhereInput = {
     AND?: Enumerable<RoomNumberWhereInput>
     OR?: Enumerable<RoomNumberWhereInput>
@@ -5149,6 +5347,8 @@ export namespace Prisma {
     price: number
     maxPeople: number
     roomNumber?: XOR<RoomNumberListCreateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type RoomUncheckedCreateWithoutHotelInput = {
@@ -5157,6 +5357,8 @@ export namespace Prisma {
     price: number
     maxPeople: number
     roomNumber?: XOR<RoomNumberListCreateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type RoomCreateOrConnectWithoutHotelInput = {
@@ -5174,6 +5376,8 @@ export namespace Prisma {
     email: string
     password: string
     role?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type UserUncheckedCreateWithoutHotelInput = {
@@ -5182,6 +5386,8 @@ export namespace Prisma {
     email: string
     password: string
     role?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type UserCreateOrConnectWithoutHotelInput = {
@@ -5214,6 +5420,8 @@ export namespace Prisma {
     price?: IntFilter | number
     maxPeople?: IntFilter | number
     hotelId?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
   }
 
   export type UserUpsertWithoutHotelInput = {
@@ -5226,6 +5434,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUncheckedUpdateWithoutHotelInput = {
@@ -5233,6 +5443,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RoomNumberCreateunavailableDatesInput = {
@@ -5253,6 +5465,8 @@ export namespace Prisma {
     featured?: boolean
     photos?: HotelCreatephotosInput | Enumerable<string>
     user: UserCreateNestedOneWithoutHotelInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type HotelUncheckedCreateWithoutRoomsInput = {
@@ -5269,6 +5483,8 @@ export namespace Prisma {
     featured?: boolean
     photos?: HotelCreatephotosInput | Enumerable<string>
     userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type HotelCreateOrConnectWithoutRoomsInput = {
@@ -5303,6 +5519,8 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     photos?: HotelUpdatephotosInput | Enumerable<string>
     user?: UserUpdateOneRequiredWithoutHotelNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HotelUncheckedUpdateWithoutRoomsInput = {
@@ -5318,6 +5536,8 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     photos?: HotelUpdatephotosInput | Enumerable<string>
     userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HotelCreateWithoutUserInput = {
@@ -5334,6 +5554,8 @@ export namespace Prisma {
     featured?: boolean
     photos?: HotelCreatephotosInput | Enumerable<string>
     rooms?: RoomCreateNestedManyWithoutHotelInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type HotelUncheckedCreateWithoutUserInput = {
@@ -5350,6 +5572,8 @@ export namespace Prisma {
     featured?: boolean
     photos?: HotelCreatephotosInput | Enumerable<string>
     rooms?: RoomUncheckedCreateNestedManyWithoutHotelInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type HotelCreateOrConnectWithoutUserInput = {
@@ -5394,6 +5618,8 @@ export namespace Prisma {
     featured?: BoolFilter | boolean
     photos?: StringNullableListFilter
     userId?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
   }
 
   export type DateTimeNullableListFilter = {
@@ -5410,6 +5636,8 @@ export namespace Prisma {
     price: number
     maxPeople: number
     roomNumber?: XOR<RoomNumberListCreateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type RoomUpdateWithoutHotelInput = {
@@ -5417,6 +5645,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     maxPeople?: IntFieldUpdateOperationsInput | number
     roomNumber?: XOR<RoomNumberListUpdateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RoomUncheckedUpdateWithoutHotelInput = {
@@ -5424,6 +5654,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     maxPeople?: IntFieldUpdateOperationsInput | number
     roomNumber?: XOR<RoomNumberListUpdateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RoomUncheckedUpdateManyWithoutRoomsInput = {
@@ -5431,6 +5663,8 @@ export namespace Prisma {
     price?: IntFieldUpdateOperationsInput | number
     maxPeople?: IntFieldUpdateOperationsInput | number
     roomNumber?: XOR<RoomNumberListUpdateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RoomNumberUpdateInput = {
@@ -5451,6 +5685,8 @@ export namespace Prisma {
     cheapestPrice?: number
     featured?: boolean
     photos?: HotelCreatephotosInput | Enumerable<string>
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type HotelUpdateWithoutUserInput = {
@@ -5466,6 +5702,8 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     photos?: HotelUpdatephotosInput | Enumerable<string>
     rooms?: RoomUpdateManyWithoutHotelNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HotelUncheckedUpdateWithoutUserInput = {
@@ -5481,6 +5719,8 @@ export namespace Prisma {
     featured?: BoolFieldUpdateOperationsInput | boolean
     photos?: HotelUpdatephotosInput | Enumerable<string>
     rooms?: RoomUncheckedUpdateManyWithoutHotelNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type HotelUncheckedUpdateManyWithoutHotelInput = {
@@ -5495,6 +5735,8 @@ export namespace Prisma {
     cheapestPrice?: IntFieldUpdateOperationsInput | number
     featured?: BoolFieldUpdateOperationsInput | boolean
     photos?: HotelUpdatephotosInput | Enumerable<string>
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RoomNumberUpdateunavailableDatesInput = {
