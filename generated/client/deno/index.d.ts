@@ -13,13 +13,20 @@ type UnwrapTuple<Tuple extends readonly unknown[]> = {
 
 
 /**
+ * Model RoomNumber
+ * 
+ */
+export type RoomNumber = {
+  number: string
+  unavailableDates: Date[]
+}
+
+/**
  * Model Hotel
  * 
  */
 export type Hotel = {
   id: string
-  createdAt: Date
-  updatedAt: Date
   type: string
   city: string
   address: string
@@ -30,17 +37,8 @@ export type Hotel = {
   rating: number
   cheapestPrice: number
   featured: boolean
+  photos: string[]
   userId: string
-}
-
-/**
- * Model Photo
- * 
- */
-export type Photo = {
-  id: string
-  name: string
-  hotelId: string
 }
 
 /**
@@ -49,10 +47,10 @@ export type Photo = {
  */
 export type Room = {
   id: string
-  createdAt: Date
-  updatedAt: Date
-  name: string
-  status: boolean
+  title: string
+  price: number
+  maxPeople: number
+  roomNumber: RoomNumber[]
   hotelId: string
 }
 
@@ -62,12 +60,10 @@ export type Room = {
  */
 export type User = {
   id: string
-  name: string
+  username: string
   email: string
   password: string
   role: string
-  createdAt: Date
-  updatedAt: Date
 }
 
 
@@ -166,16 +162,6 @@ export class PrismaClient<
     * ```
     */
   get hotel(): Prisma.HotelDelegate<GlobalReject>;
-
-  /**
-   * `prisma.photo`: Exposes CRUD operations for the **Photo** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Photos
-    * const photos = await prisma.photo.findMany()
-    * ```
-    */
-  get photo(): Prisma.PhotoDelegate<GlobalReject>;
 
   /**
    * `prisma.room`: Exposes CRUD operations for the **Room** model.
@@ -673,7 +659,6 @@ export namespace Prisma {
 
   export const ModelName: {
     Hotel: 'Hotel',
-    Photo: 'Photo',
     Room: 'Room',
     User: 'User'
   };
@@ -846,12 +831,10 @@ export namespace Prisma {
 
 
   export type HotelCountOutputType = {
-    photos: number
     rooms: number
   }
 
   export type HotelCountOutputTypeSelect = {
-    photos?: boolean
     rooms?: boolean
   }
 
@@ -933,6 +916,108 @@ export namespace Prisma {
    */
 
   /**
+   * Model RoomNumber
+   */
+
+
+
+
+
+  export type RoomNumberSelect = {
+    number?: boolean
+    unavailableDates?: boolean
+  }
+
+
+  export type RoomNumberGetPayload<S extends boolean | null | undefined | RoomNumberArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? RoomNumber :
+    S extends undefined ? never :
+    S extends { include: any } & (RoomNumberArgs)
+    ? RoomNumber 
+    : S extends { select: any } & (RoomNumberArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof RoomNumber ? RoomNumber[P] : never
+  } 
+      : RoomNumber
+
+
+
+  export interface RoomNumberDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+
+
+
+
+
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RoomNumber.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__RoomNumberClient<T, Null = never> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * RoomNumber without action
+   */
+  export type RoomNumberArgs = {
+    /**
+     * Select specific fields to fetch from the RoomNumber
+     */
+    select?: RoomNumberSelect | null
+  }
+
+
+
+  /**
    * Model Hotel
    */
 
@@ -957,8 +1042,6 @@ export namespace Prisma {
 
   export type HotelMinAggregateOutputType = {
     id: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
     type: string | null
     city: string | null
     address: string | null
@@ -974,8 +1057,6 @@ export namespace Prisma {
 
   export type HotelMaxAggregateOutputType = {
     id: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
     type: string | null
     city: string | null
     address: string | null
@@ -991,8 +1072,6 @@ export namespace Prisma {
 
   export type HotelCountAggregateOutputType = {
     id: number
-    createdAt: number
-    updatedAt: number
     type: number
     city: number
     address: number
@@ -1003,6 +1082,7 @@ export namespace Prisma {
     rating: number
     cheapestPrice: number
     featured: number
+    photos: number
     userId: number
     _all: number
   }
@@ -1020,8 +1100,6 @@ export namespace Prisma {
 
   export type HotelMinAggregateInputType = {
     id?: true
-    createdAt?: true
-    updatedAt?: true
     type?: true
     city?: true
     address?: true
@@ -1037,8 +1115,6 @@ export namespace Prisma {
 
   export type HotelMaxAggregateInputType = {
     id?: true
-    createdAt?: true
-    updatedAt?: true
     type?: true
     city?: true
     address?: true
@@ -1054,8 +1130,6 @@ export namespace Prisma {
 
   export type HotelCountAggregateInputType = {
     id?: true
-    createdAt?: true
-    updatedAt?: true
     type?: true
     city?: true
     address?: true
@@ -1066,6 +1140,7 @@ export namespace Prisma {
     rating?: true
     cheapestPrice?: true
     featured?: true
+    photos?: true
     userId?: true
     _all?: true
   }
@@ -1159,8 +1234,6 @@ export namespace Prisma {
 
   export type HotelGroupByOutputType = {
     id: string
-    createdAt: Date
-    updatedAt: Date
     type: string
     city: string
     address: string
@@ -1171,6 +1244,7 @@ export namespace Prisma {
     rating: number
     cheapestPrice: number
     featured: boolean
+    photos: string[]
     userId: string
     _count: HotelCountAggregateOutputType | null
     _avg: HotelAvgAggregateOutputType | null
@@ -1195,8 +1269,6 @@ export namespace Prisma {
 
   export type HotelSelect = {
     id?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
     type?: boolean
     city?: boolean
     address?: boolean
@@ -1207,7 +1279,7 @@ export namespace Prisma {
     rating?: boolean
     cheapestPrice?: boolean
     featured?: boolean
-    photos?: boolean | Hotel$photosArgs
+    photos?: boolean
     rooms?: boolean | Hotel$roomsArgs
     user?: boolean | UserArgs
     userId?: boolean
@@ -1216,7 +1288,6 @@ export namespace Prisma {
 
 
   export type HotelInclude = {
-    photos?: boolean | Hotel$photosArgs
     rooms?: boolean | Hotel$roomsArgs
     user?: boolean | UserArgs
     _count?: boolean | HotelCountOutputTypeArgs
@@ -1229,7 +1300,6 @@ export namespace Prisma {
     S extends { include: any } & (HotelArgs | HotelFindManyArgs)
     ? Hotel  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'photos' ? Array < PhotoGetPayload<S['include'][P]>>  :
         P extends 'rooms' ? Array < RoomGetPayload<S['include'][P]>>  :
         P extends 'user' ? UserGetPayload<S['include'][P]> :
         P extends '_count' ? HotelCountOutputTypeGetPayload<S['include'][P]> :  never
@@ -1237,7 +1307,6 @@ export namespace Prisma {
     : S extends { select: any } & (HotelArgs | HotelFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'photos' ? Array < PhotoGetPayload<S['select'][P]>>  :
         P extends 'rooms' ? Array < RoomGetPayload<S['select'][P]>>  :
         P extends 'user' ? UserGetPayload<S['select'][P]> :
         P extends '_count' ? HotelCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Hotel ? Hotel[P] : never
@@ -1641,8 +1710,6 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
-    photos<T extends Hotel$photosArgs= {}>(args?: Subset<T, Hotel$photosArgs>): PrismaPromise<Array<PhotoGetPayload<T>>| Null>;
-
     rooms<T extends Hotel$roomsArgs= {}>(args?: Subset<T, Hotel$roomsArgs>): PrismaPromise<Array<RoomGetPayload<T>>| Null>;
 
     user<T extends UserArgs= {}>(args?: Subset<T, UserArgs>): Prisma__UserClient<UserGetPayload<T> | Null>;
@@ -2032,27 +2099,6 @@ export namespace Prisma {
 
 
   /**
-   * Hotel.photos
-   */
-  export type Hotel$photosArgs = {
-    /**
-     * Select specific fields to fetch from the Photo
-     */
-    select?: PhotoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: PhotoInclude | null
-    where?: PhotoWhereInput
-    orderBy?: Enumerable<PhotoOrderByWithRelationInput>
-    cursor?: PhotoWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: Enumerable<PhotoScalarFieldEnum>
-  }
-
-
-  /**
    * Hotel.rooms
    */
   export type Hotel$roomsArgs = {
@@ -2090,1042 +2136,85 @@ export namespace Prisma {
 
 
   /**
-   * Model Photo
-   */
-
-
-  export type AggregatePhoto = {
-    _count: PhotoCountAggregateOutputType | null
-    _min: PhotoMinAggregateOutputType | null
-    _max: PhotoMaxAggregateOutputType | null
-  }
-
-  export type PhotoMinAggregateOutputType = {
-    id: string | null
-    name: string | null
-    hotelId: string | null
-  }
-
-  export type PhotoMaxAggregateOutputType = {
-    id: string | null
-    name: string | null
-    hotelId: string | null
-  }
-
-  export type PhotoCountAggregateOutputType = {
-    id: number
-    name: number
-    hotelId: number
-    _all: number
-  }
-
-
-  export type PhotoMinAggregateInputType = {
-    id?: true
-    name?: true
-    hotelId?: true
-  }
-
-  export type PhotoMaxAggregateInputType = {
-    id?: true
-    name?: true
-    hotelId?: true
-  }
-
-  export type PhotoCountAggregateInputType = {
-    id?: true
-    name?: true
-    hotelId?: true
-    _all?: true
-  }
-
-  export type PhotoAggregateArgs = {
-    /**
-     * Filter which Photo to aggregate.
-     */
-    where?: PhotoWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Photos to fetch.
-     */
-    orderBy?: Enumerable<PhotoOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: PhotoWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Photos from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Photos.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Photos
-    **/
-    _count?: true | PhotoCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: PhotoMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: PhotoMaxAggregateInputType
-  }
-
-  export type GetPhotoAggregateType<T extends PhotoAggregateArgs> = {
-        [P in keyof T & keyof AggregatePhoto]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregatePhoto[P]>
-      : GetScalarType<T[P], AggregatePhoto[P]>
-  }
-
-
-
-
-  export type PhotoGroupByArgs = {
-    where?: PhotoWhereInput
-    orderBy?: Enumerable<PhotoOrderByWithAggregationInput>
-    by: PhotoScalarFieldEnum[]
-    having?: PhotoScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: PhotoCountAggregateInputType | true
-    _min?: PhotoMinAggregateInputType
-    _max?: PhotoMaxAggregateInputType
-  }
-
-
-  export type PhotoGroupByOutputType = {
-    id: string
-    name: string
-    hotelId: string
-    _count: PhotoCountAggregateOutputType | null
-    _min: PhotoMinAggregateOutputType | null
-    _max: PhotoMaxAggregateOutputType | null
-  }
-
-  type GetPhotoGroupByPayload<T extends PhotoGroupByArgs> = PrismaPromise<
-    Array<
-      PickArray<PhotoGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof PhotoGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], PhotoGroupByOutputType[P]>
-            : GetScalarType<T[P], PhotoGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type PhotoSelect = {
-    id?: boolean
-    name?: boolean
-    hotel?: boolean | HotelArgs
-    hotelId?: boolean
-  }
-
-
-  export type PhotoInclude = {
-    hotel?: boolean | HotelArgs
-  }
-
-  export type PhotoGetPayload<S extends boolean | null | undefined | PhotoArgs> =
-    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
-    S extends true ? Photo :
-    S extends undefined ? never :
-    S extends { include: any } & (PhotoArgs | PhotoFindManyArgs)
-    ? Photo  & {
-    [P in TruthyKeys<S['include']>]:
-        P extends 'hotel' ? HotelGetPayload<S['include'][P]> :  never
-  } 
-    : S extends { select: any } & (PhotoArgs | PhotoFindManyArgs)
-      ? {
-    [P in TruthyKeys<S['select']>]:
-        P extends 'hotel' ? HotelGetPayload<S['select'][P]> :  P extends keyof Photo ? Photo[P] : never
-  } 
-      : Photo
-
-
-  type PhotoCountArgs = 
-    Omit<PhotoFindManyArgs, 'select' | 'include'> & {
-      select?: PhotoCountAggregateInputType | true
-    }
-
-  export interface PhotoDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
-
-    /**
-     * Find zero or one Photo that matches the filter.
-     * @param {PhotoFindUniqueArgs} args - Arguments to find a Photo
-     * @example
-     * // Get one Photo
-     * const photo = await prisma.photo.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUnique<T extends PhotoFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, PhotoFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Photo'> extends True ? Prisma__PhotoClient<PhotoGetPayload<T>> : Prisma__PhotoClient<PhotoGetPayload<T> | null, null>
-
-    /**
-     * Find one Photo that matches the filter or throw an error  with `error.code='P2025'` 
-     *     if no matches were found.
-     * @param {PhotoFindUniqueOrThrowArgs} args - Arguments to find a Photo
-     * @example
-     * // Get one Photo
-     * const photo = await prisma.photo.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends PhotoFindUniqueOrThrowArgs>(
-      args?: SelectSubset<T, PhotoFindUniqueOrThrowArgs>
-    ): Prisma__PhotoClient<PhotoGetPayload<T>>
-
-    /**
-     * Find the first Photo that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PhotoFindFirstArgs} args - Arguments to find a Photo
-     * @example
-     * // Get one Photo
-     * const photo = await prisma.photo.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirst<T extends PhotoFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, PhotoFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Photo'> extends True ? Prisma__PhotoClient<PhotoGetPayload<T>> : Prisma__PhotoClient<PhotoGetPayload<T> | null, null>
-
-    /**
-     * Find the first Photo that matches the filter or
-     * throw `NotFoundError` if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PhotoFindFirstOrThrowArgs} args - Arguments to find a Photo
-     * @example
-     * // Get one Photo
-     * const photo = await prisma.photo.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends PhotoFindFirstOrThrowArgs>(
-      args?: SelectSubset<T, PhotoFindFirstOrThrowArgs>
-    ): Prisma__PhotoClient<PhotoGetPayload<T>>
-
-    /**
-     * Find zero or more Photos that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PhotoFindManyArgs=} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Photos
-     * const photos = await prisma.photo.findMany()
-     * 
-     * // Get first 10 Photos
-     * const photos = await prisma.photo.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const photoWithIdOnly = await prisma.photo.findMany({ select: { id: true } })
-     * 
-    **/
-    findMany<T extends PhotoFindManyArgs>(
-      args?: SelectSubset<T, PhotoFindManyArgs>
-    ): PrismaPromise<Array<PhotoGetPayload<T>>>
-
-    /**
-     * Create a Photo.
-     * @param {PhotoCreateArgs} args - Arguments to create a Photo.
-     * @example
-     * // Create one Photo
-     * const Photo = await prisma.photo.create({
-     *   data: {
-     *     // ... data to create a Photo
-     *   }
-     * })
-     * 
-    **/
-    create<T extends PhotoCreateArgs>(
-      args: SelectSubset<T, PhotoCreateArgs>
-    ): Prisma__PhotoClient<PhotoGetPayload<T>>
-
-    /**
-     * Create many Photos.
-     *     @param {PhotoCreateManyArgs} args - Arguments to create many Photos.
-     *     @example
-     *     // Create many Photos
-     *     const photo = await prisma.photo.createMany({
-     *       data: {
-     *         // ... provide data here
-     *       }
-     *     })
-     *     
-    **/
-    createMany<T extends PhotoCreateManyArgs>(
-      args?: SelectSubset<T, PhotoCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a Photo.
-     * @param {PhotoDeleteArgs} args - Arguments to delete one Photo.
-     * @example
-     * // Delete one Photo
-     * const Photo = await prisma.photo.delete({
-     *   where: {
-     *     // ... filter to delete one Photo
-     *   }
-     * })
-     * 
-    **/
-    delete<T extends PhotoDeleteArgs>(
-      args: SelectSubset<T, PhotoDeleteArgs>
-    ): Prisma__PhotoClient<PhotoGetPayload<T>>
-
-    /**
-     * Update one Photo.
-     * @param {PhotoUpdateArgs} args - Arguments to update one Photo.
-     * @example
-     * // Update one Photo
-     * const photo = await prisma.photo.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    update<T extends PhotoUpdateArgs>(
-      args: SelectSubset<T, PhotoUpdateArgs>
-    ): Prisma__PhotoClient<PhotoGetPayload<T>>
-
-    /**
-     * Delete zero or more Photos.
-     * @param {PhotoDeleteManyArgs} args - Arguments to filter Photos to delete.
-     * @example
-     * // Delete a few Photos
-     * const { count } = await prisma.photo.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-    **/
-    deleteMany<T extends PhotoDeleteManyArgs>(
-      args?: SelectSubset<T, PhotoDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Photos.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PhotoUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Photos
-     * const photo = await prisma.photo.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    updateMany<T extends PhotoUpdateManyArgs>(
-      args: SelectSubset<T, PhotoUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one Photo.
-     * @param {PhotoUpsertArgs} args - Arguments to update or create a Photo.
-     * @example
-     * // Update or create a Photo
-     * const photo = await prisma.photo.upsert({
-     *   create: {
-     *     // ... data to create a Photo
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Photo we want to update
-     *   }
-     * })
-    **/
-    upsert<T extends PhotoUpsertArgs>(
-      args: SelectSubset<T, PhotoUpsertArgs>
-    ): Prisma__PhotoClient<PhotoGetPayload<T>>
-
-    /**
-     * Find zero or more Photos that matches the filter.
-     * @param {PhotoFindRawArgs} args - Select which filters you would like to apply.
-     * @example
-     * const photo = await prisma.photo.findRaw({
-     *   filter: { age: { $gt: 25 } } 
-     * })
-    **/
-    findRaw(
-      args?: PhotoFindRawArgs
-    ): PrismaPromise<JsonObject>
-
-    /**
-     * Perform aggregation operations on a Photo.
-     * @param {PhotoAggregateRawArgs} args - Select which aggregations you would like to apply.
-     * @example
-     * const photo = await prisma.photo.aggregateRaw({
-     *   pipeline: [
-     *     { $match: { status: "registered" } },
-     *     { $group: { _id: "$country", total: { $sum: 1 } } }
-     *   ]
-     * })
-    **/
-    aggregateRaw(
-      args?: PhotoAggregateRawArgs
-    ): PrismaPromise<JsonObject>
-
-    /**
-     * Count the number of Photos.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PhotoCountArgs} args - Arguments to filter Photos to count.
-     * @example
-     * // Count the number of Photos
-     * const count = await prisma.photo.count({
-     *   where: {
-     *     // ... the filter for the Photos we want to count
-     *   }
-     * })
-    **/
-    count<T extends PhotoCountArgs>(
-      args?: Subset<T, PhotoCountArgs>,
-    ): PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], PhotoCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Photo.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PhotoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends PhotoAggregateArgs>(args: Subset<T, PhotoAggregateArgs>): PrismaPromise<GetPhotoAggregateType<T>>
-
-    /**
-     * Group by Photo.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PhotoGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends PhotoGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: PhotoGroupByArgs['orderBy'] }
-        : { orderBy?: PhotoGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends TupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, PhotoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPhotoGroupByPayload<T> : PrismaPromise<InputErrors>
-
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Photo.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export class Prisma__PhotoClient<T, Null = never> implements PrismaPromise<T> {
-    [prisma]: true;
-    private readonly _dmmf;
-    private readonly _fetcher;
-    private readonly _queryType;
-    private readonly _rootField;
-    private readonly _clientMethod;
-    private readonly _args;
-    private readonly _dataPath;
-    private readonly _errorFormat;
-    private readonly _measurePerformance?;
-    private _isList;
-    private _callsite;
-    private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
-
-    hotel<T extends HotelArgs= {}>(args?: Subset<T, HotelArgs>): Prisma__HotelClient<HotelGetPayload<T> | Null>;
-
-    private get _document();
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
-  }
-
-
-
-  // Custom InputTypes
-
-  /**
-   * Photo base type for findUnique actions
-   */
-  export type PhotoFindUniqueArgsBase = {
-    /**
-     * Select specific fields to fetch from the Photo
-     */
-    select?: PhotoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: PhotoInclude | null
-    /**
-     * Filter, which Photo to fetch.
-     */
-    where: PhotoWhereUniqueInput
-  }
-
-  /**
-   * Photo findUnique
-   */
-  export interface PhotoFindUniqueArgs extends PhotoFindUniqueArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
-    */
-    rejectOnNotFound?: RejectOnNotFound
-  }
-      
-
-  /**
-   * Photo findUniqueOrThrow
-   */
-  export type PhotoFindUniqueOrThrowArgs = {
-    /**
-     * Select specific fields to fetch from the Photo
-     */
-    select?: PhotoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: PhotoInclude | null
-    /**
-     * Filter, which Photo to fetch.
-     */
-    where: PhotoWhereUniqueInput
-  }
-
-
-  /**
-   * Photo base type for findFirst actions
-   */
-  export type PhotoFindFirstArgsBase = {
-    /**
-     * Select specific fields to fetch from the Photo
-     */
-    select?: PhotoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: PhotoInclude | null
-    /**
-     * Filter, which Photo to fetch.
-     */
-    where?: PhotoWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Photos to fetch.
-     */
-    orderBy?: Enumerable<PhotoOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Photos.
-     */
-    cursor?: PhotoWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Photos from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Photos.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Photos.
-     */
-    distinct?: Enumerable<PhotoScalarFieldEnum>
-  }
-
-  /**
-   * Photo findFirst
-   */
-  export interface PhotoFindFirstArgs extends PhotoFindFirstArgsBase {
-   /**
-    * Throw an Error if query returns no results
-    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
-    */
-    rejectOnNotFound?: RejectOnNotFound
-  }
-      
-
-  /**
-   * Photo findFirstOrThrow
-   */
-  export type PhotoFindFirstOrThrowArgs = {
-    /**
-     * Select specific fields to fetch from the Photo
-     */
-    select?: PhotoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: PhotoInclude | null
-    /**
-     * Filter, which Photo to fetch.
-     */
-    where?: PhotoWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Photos to fetch.
-     */
-    orderBy?: Enumerable<PhotoOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Photos.
-     */
-    cursor?: PhotoWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Photos from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Photos.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Photos.
-     */
-    distinct?: Enumerable<PhotoScalarFieldEnum>
-  }
-
-
-  /**
-   * Photo findMany
-   */
-  export type PhotoFindManyArgs = {
-    /**
-     * Select specific fields to fetch from the Photo
-     */
-    select?: PhotoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: PhotoInclude | null
-    /**
-     * Filter, which Photos to fetch.
-     */
-    where?: PhotoWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Photos to fetch.
-     */
-    orderBy?: Enumerable<PhotoOrderByWithRelationInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Photos.
-     */
-    cursor?: PhotoWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Photos from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Photos.
-     */
-    skip?: number
-    distinct?: Enumerable<PhotoScalarFieldEnum>
-  }
-
-
-  /**
-   * Photo create
-   */
-  export type PhotoCreateArgs = {
-    /**
-     * Select specific fields to fetch from the Photo
-     */
-    select?: PhotoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: PhotoInclude | null
-    /**
-     * The data needed to create a Photo.
-     */
-    data: XOR<PhotoCreateInput, PhotoUncheckedCreateInput>
-  }
-
-
-  /**
-   * Photo createMany
-   */
-  export type PhotoCreateManyArgs = {
-    /**
-     * The data used to create many Photos.
-     */
-    data: Enumerable<PhotoCreateManyInput>
-  }
-
-
-  /**
-   * Photo update
-   */
-  export type PhotoUpdateArgs = {
-    /**
-     * Select specific fields to fetch from the Photo
-     */
-    select?: PhotoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: PhotoInclude | null
-    /**
-     * The data needed to update a Photo.
-     */
-    data: XOR<PhotoUpdateInput, PhotoUncheckedUpdateInput>
-    /**
-     * Choose, which Photo to update.
-     */
-    where: PhotoWhereUniqueInput
-  }
-
-
-  /**
-   * Photo updateMany
-   */
-  export type PhotoUpdateManyArgs = {
-    /**
-     * The data used to update Photos.
-     */
-    data: XOR<PhotoUpdateManyMutationInput, PhotoUncheckedUpdateManyInput>
-    /**
-     * Filter which Photos to update
-     */
-    where?: PhotoWhereInput
-  }
-
-
-  /**
-   * Photo upsert
-   */
-  export type PhotoUpsertArgs = {
-    /**
-     * Select specific fields to fetch from the Photo
-     */
-    select?: PhotoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: PhotoInclude | null
-    /**
-     * The filter to search for the Photo to update in case it exists.
-     */
-    where: PhotoWhereUniqueInput
-    /**
-     * In case the Photo found by the `where` argument doesn't exist, create a new Photo with this data.
-     */
-    create: XOR<PhotoCreateInput, PhotoUncheckedCreateInput>
-    /**
-     * In case the Photo was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<PhotoUpdateInput, PhotoUncheckedUpdateInput>
-  }
-
-
-  /**
-   * Photo delete
-   */
-  export type PhotoDeleteArgs = {
-    /**
-     * Select specific fields to fetch from the Photo
-     */
-    select?: PhotoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: PhotoInclude | null
-    /**
-     * Filter which Photo to delete.
-     */
-    where: PhotoWhereUniqueInput
-  }
-
-
-  /**
-   * Photo deleteMany
-   */
-  export type PhotoDeleteManyArgs = {
-    /**
-     * Filter which Photos to delete
-     */
-    where?: PhotoWhereInput
-  }
-
-
-  /**
-   * Photo findRaw
-   */
-  export type PhotoFindRawArgs = {
-    /**
-     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
-     */
-    filter?: InputJsonValue
-    /**
-     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
-     */
-    options?: InputJsonValue
-  }
-
-
-  /**
-   * Photo aggregateRaw
-   */
-  export type PhotoAggregateRawArgs = {
-    /**
-     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
-     */
-    pipeline?: InputJsonValue[]
-    /**
-     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
-     */
-    options?: InputJsonValue
-  }
-
-
-  /**
-   * Photo without action
-   */
-  export type PhotoArgs = {
-    /**
-     * Select specific fields to fetch from the Photo
-     */
-    select?: PhotoSelect | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: PhotoInclude | null
-  }
-
-
-
-  /**
    * Model Room
    */
 
 
   export type AggregateRoom = {
     _count: RoomCountAggregateOutputType | null
+    _avg: RoomAvgAggregateOutputType | null
+    _sum: RoomSumAggregateOutputType | null
     _min: RoomMinAggregateOutputType | null
     _max: RoomMaxAggregateOutputType | null
   }
 
+  export type RoomAvgAggregateOutputType = {
+    price: number | null
+    maxPeople: number | null
+  }
+
+  export type RoomSumAggregateOutputType = {
+    price: number | null
+    maxPeople: number | null
+  }
+
   export type RoomMinAggregateOutputType = {
     id: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-    name: string | null
-    status: boolean | null
+    title: string | null
+    price: number | null
+    maxPeople: number | null
     hotelId: string | null
   }
 
   export type RoomMaxAggregateOutputType = {
     id: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-    name: string | null
-    status: boolean | null
+    title: string | null
+    price: number | null
+    maxPeople: number | null
     hotelId: string | null
   }
 
   export type RoomCountAggregateOutputType = {
     id: number
-    createdAt: number
-    updatedAt: number
-    name: number
-    status: number
+    title: number
+    price: number
+    maxPeople: number
     hotelId: number
     _all: number
   }
 
 
+  export type RoomAvgAggregateInputType = {
+    price?: true
+    maxPeople?: true
+  }
+
+  export type RoomSumAggregateInputType = {
+    price?: true
+    maxPeople?: true
+  }
+
   export type RoomMinAggregateInputType = {
     id?: true
-    createdAt?: true
-    updatedAt?: true
-    name?: true
-    status?: true
+    title?: true
+    price?: true
+    maxPeople?: true
     hotelId?: true
   }
 
   export type RoomMaxAggregateInputType = {
     id?: true
-    createdAt?: true
-    updatedAt?: true
-    name?: true
-    status?: true
+    title?: true
+    price?: true
+    maxPeople?: true
     hotelId?: true
   }
 
   export type RoomCountAggregateInputType = {
     id?: true
-    createdAt?: true
-    updatedAt?: true
-    name?: true
-    status?: true
+    title?: true
+    price?: true
+    maxPeople?: true
     hotelId?: true
     _all?: true
   }
@@ -3168,6 +2257,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: RoomAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RoomSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: RoomMinAggregateInputType
@@ -3198,6 +2299,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: RoomCountAggregateInputType | true
+    _avg?: RoomAvgAggregateInputType
+    _sum?: RoomSumAggregateInputType
     _min?: RoomMinAggregateInputType
     _max?: RoomMaxAggregateInputType
   }
@@ -3205,12 +2308,13 @@ export namespace Prisma {
 
   export type RoomGroupByOutputType = {
     id: string
-    createdAt: Date
-    updatedAt: Date
-    name: string
-    status: boolean
+    title: string
+    price: number
+    maxPeople: number
     hotelId: string
     _count: RoomCountAggregateOutputType | null
+    _avg: RoomAvgAggregateOutputType | null
+    _sum: RoomSumAggregateOutputType | null
     _min: RoomMinAggregateOutputType | null
     _max: RoomMaxAggregateOutputType | null
   }
@@ -3231,10 +2335,10 @@ export namespace Prisma {
 
   export type RoomSelect = {
     id?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    name?: boolean
-    status?: boolean
+    title?: boolean
+    price?: boolean
+    maxPeople?: boolean
+    roomNumber?: boolean | RoomNumberArgs
     hotel?: boolean | HotelArgs
     hotelId?: boolean
   }
@@ -3256,6 +2360,7 @@ export namespace Prisma {
     : S extends { select: any } & (RoomArgs | RoomFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
+        P extends 'roomNumber' ? Array < RoomNumberGetPayload<S['select'][P]>>  :
         P extends 'hotel' ? HotelGetPayload<S['select'][P]> :  P extends keyof Room ? Room[P] : never
   } 
       : Room
@@ -3656,6 +2761,8 @@ export namespace Prisma {
     private _requestPromise?;
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    roomNumber<T extends RoomNumberArgs= {}>(args?: Subset<T, RoomNumberArgs>): PrismaPromise<Array<RoomNumberGetPayload<T>>| Null>;
 
     hotel<T extends HotelArgs= {}>(args?: Subset<T, HotelArgs>): Prisma__HotelClient<HotelGetPayload<T> | Null>;
 
@@ -4072,64 +3179,52 @@ export namespace Prisma {
 
   export type UserMinAggregateOutputType = {
     id: string | null
-    name: string | null
+    username: string | null
     email: string | null
     password: string | null
     role: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
     id: string | null
-    name: string | null
+    username: string | null
     email: string | null
     password: string | null
     role: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
   }
 
   export type UserCountAggregateOutputType = {
     id: number
-    name: number
+    username: number
     email: number
     password: number
     role: number
-    createdAt: number
-    updatedAt: number
     _all: number
   }
 
 
   export type UserMinAggregateInputType = {
     id?: true
-    name?: true
+    username?: true
     email?: true
     password?: true
     role?: true
-    createdAt?: true
-    updatedAt?: true
   }
 
   export type UserMaxAggregateInputType = {
     id?: true
-    name?: true
+    username?: true
     email?: true
     password?: true
     role?: true
-    createdAt?: true
-    updatedAt?: true
   }
 
   export type UserCountAggregateInputType = {
     id?: true
-    name?: true
+    username?: true
     email?: true
     password?: true
     role?: true
-    createdAt?: true
-    updatedAt?: true
     _all?: true
   }
 
@@ -4208,12 +3303,10 @@ export namespace Prisma {
 
   export type UserGroupByOutputType = {
     id: string
-    name: string
+    username: string
     email: string
     password: string
     role: string
-    createdAt: Date
-    updatedAt: Date
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -4235,12 +3328,10 @@ export namespace Prisma {
 
   export type UserSelect = {
     id?: boolean
-    name?: boolean
+    username?: boolean
     email?: boolean
     password?: boolean
     role?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
     hotel?: boolean | User$hotelArgs
     _count?: boolean | UserCountOutputTypeArgs
   }
@@ -5098,8 +4189,6 @@ export namespace Prisma {
 
   export const HotelScalarFieldEnum: {
     id: 'id',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
     type: 'type',
     city: 'city',
     address: 'address',
@@ -5110,19 +4199,11 @@ export namespace Prisma {
     rating: 'rating',
     cheapestPrice: 'cheapestPrice',
     featured: 'featured',
+    photos: 'photos',
     userId: 'userId'
   };
 
   export type HotelScalarFieldEnum = (typeof HotelScalarFieldEnum)[keyof typeof HotelScalarFieldEnum]
-
-
-  export const PhotoScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    hotelId: 'hotelId'
-  };
-
-  export type PhotoScalarFieldEnum = (typeof PhotoScalarFieldEnum)[keyof typeof PhotoScalarFieldEnum]
 
 
   export const QueryMode: {
@@ -5135,10 +4216,9 @@ export namespace Prisma {
 
   export const RoomScalarFieldEnum: {
     id: 'id',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    name: 'name',
-    status: 'status',
+    title: 'title',
+    price: 'price',
+    maxPeople: 'maxPeople',
     hotelId: 'hotelId'
   };
 
@@ -5155,12 +4235,10 @@ export namespace Prisma {
 
   export const UserScalarFieldEnum: {
     id: 'id',
-    name: 'name',
+    username: 'username',
     email: 'email',
     password: 'password',
-    role: 'role',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    role: 'role'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -5176,8 +4254,6 @@ export namespace Prisma {
     OR?: Enumerable<HotelWhereInput>
     NOT?: Enumerable<HotelWhereInput>
     id?: StringFilter | string
-    createdAt?: DateTimeFilter | Date | string
-    updatedAt?: DateTimeFilter | Date | string
     type?: StringFilter | string
     city?: StringFilter | string
     address?: StringFilter | string
@@ -5188,7 +4264,7 @@ export namespace Prisma {
     rating?: IntFilter | number
     cheapestPrice?: IntFilter | number
     featured?: BoolFilter | boolean
-    photos?: PhotoListRelationFilter
+    photos?: StringNullableListFilter
     rooms?: RoomListRelationFilter
     user?: XOR<UserRelationFilter, UserWhereInput>
     userId?: StringFilter | string
@@ -5196,8 +4272,6 @@ export namespace Prisma {
 
   export type HotelOrderByWithRelationInput = {
     id?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
     type?: SortOrder
     city?: SortOrder
     address?: SortOrder
@@ -5208,7 +4282,7 @@ export namespace Prisma {
     rating?: SortOrder
     cheapestPrice?: SortOrder
     featured?: SortOrder
-    photos?: PhotoOrderByRelationAggregateInput
+    photos?: SortOrder
     rooms?: RoomOrderByRelationAggregateInput
     user?: UserOrderByWithRelationInput
     userId?: SortOrder
@@ -5220,8 +4294,6 @@ export namespace Prisma {
 
   export type HotelOrderByWithAggregationInput = {
     id?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
     type?: SortOrder
     city?: SortOrder
     address?: SortOrder
@@ -5232,6 +4304,7 @@ export namespace Prisma {
     rating?: SortOrder
     cheapestPrice?: SortOrder
     featured?: SortOrder
+    photos?: SortOrder
     userId?: SortOrder
     _count?: HotelCountOrderByAggregateInput
     _avg?: HotelAvgOrderByAggregateInput
@@ -5245,8 +4318,6 @@ export namespace Prisma {
     OR?: Enumerable<HotelScalarWhereWithAggregatesInput>
     NOT?: Enumerable<HotelScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    createdAt?: DateTimeWithAggregatesFilter | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter | Date | string
     type?: StringWithAggregatesFilter | string
     city?: StringWithAggregatesFilter | string
     address?: StringWithAggregatesFilter | string
@@ -5257,46 +4328,8 @@ export namespace Prisma {
     rating?: IntWithAggregatesFilter | number
     cheapestPrice?: IntWithAggregatesFilter | number
     featured?: BoolWithAggregatesFilter | boolean
+    photos?: StringNullableListFilter
     userId?: StringWithAggregatesFilter | string
-  }
-
-  export type PhotoWhereInput = {
-    AND?: Enumerable<PhotoWhereInput>
-    OR?: Enumerable<PhotoWhereInput>
-    NOT?: Enumerable<PhotoWhereInput>
-    id?: StringFilter | string
-    name?: StringFilter | string
-    hotel?: XOR<HotelRelationFilter, HotelWhereInput>
-    hotelId?: StringFilter | string
-  }
-
-  export type PhotoOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    hotel?: HotelOrderByWithRelationInput
-    hotelId?: SortOrder
-  }
-
-  export type PhotoWhereUniqueInput = {
-    id?: string
-  }
-
-  export type PhotoOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    hotelId?: SortOrder
-    _count?: PhotoCountOrderByAggregateInput
-    _max?: PhotoMaxOrderByAggregateInput
-    _min?: PhotoMinOrderByAggregateInput
-  }
-
-  export type PhotoScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<PhotoScalarWhereWithAggregatesInput>
-    OR?: Enumerable<PhotoScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<PhotoScalarWhereWithAggregatesInput>
-    id?: StringWithAggregatesFilter | string
-    name?: StringWithAggregatesFilter | string
-    hotelId?: StringWithAggregatesFilter | string
   }
 
   export type RoomWhereInput = {
@@ -5304,20 +4337,20 @@ export namespace Prisma {
     OR?: Enumerable<RoomWhereInput>
     NOT?: Enumerable<RoomWhereInput>
     id?: StringFilter | string
-    createdAt?: DateTimeFilter | Date | string
-    updatedAt?: DateTimeFilter | Date | string
-    name?: StringFilter | string
-    status?: BoolFilter | boolean
+    title?: StringFilter | string
+    price?: IntFilter | number
+    maxPeople?: IntFilter | number
+    roomNumber?: XOR<RoomNumberCompositeListFilter, Enumerable<RoomNumberObjectEqualityInput>>
     hotel?: XOR<HotelRelationFilter, HotelWhereInput>
     hotelId?: StringFilter | string
   }
 
   export type RoomOrderByWithRelationInput = {
     id?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    name?: SortOrder
-    status?: SortOrder
+    title?: SortOrder
+    price?: SortOrder
+    maxPeople?: SortOrder
+    roomNumber?: RoomNumberOrderByCompositeAggregateInput
     hotel?: HotelOrderByWithRelationInput
     hotelId?: SortOrder
   }
@@ -5328,14 +4361,15 @@ export namespace Prisma {
 
   export type RoomOrderByWithAggregationInput = {
     id?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    name?: SortOrder
-    status?: SortOrder
+    title?: SortOrder
+    price?: SortOrder
+    maxPeople?: SortOrder
     hotelId?: SortOrder
     _count?: RoomCountOrderByAggregateInput
+    _avg?: RoomAvgOrderByAggregateInput
     _max?: RoomMaxOrderByAggregateInput
     _min?: RoomMinOrderByAggregateInput
+    _sum?: RoomSumOrderByAggregateInput
   }
 
   export type RoomScalarWhereWithAggregatesInput = {
@@ -5343,10 +4377,9 @@ export namespace Prisma {
     OR?: Enumerable<RoomScalarWhereWithAggregatesInput>
     NOT?: Enumerable<RoomScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    createdAt?: DateTimeWithAggregatesFilter | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter | Date | string
-    name?: StringWithAggregatesFilter | string
-    status?: BoolWithAggregatesFilter | boolean
+    title?: StringWithAggregatesFilter | string
+    price?: IntWithAggregatesFilter | number
+    maxPeople?: IntWithAggregatesFilter | number
     hotelId?: StringWithAggregatesFilter | string
   }
 
@@ -5355,39 +4388,34 @@ export namespace Prisma {
     OR?: Enumerable<UserWhereInput>
     NOT?: Enumerable<UserWhereInput>
     id?: StringFilter | string
-    name?: StringFilter | string
+    username?: StringFilter | string
     email?: StringFilter | string
     password?: StringFilter | string
     role?: StringFilter | string
-    createdAt?: DateTimeFilter | Date | string
-    updatedAt?: DateTimeFilter | Date | string
     hotel?: HotelListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
-    name?: SortOrder
+    username?: SortOrder
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
     hotel?: HotelOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = {
     id?: string
+    username?: string
     email?: string
   }
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
-    name?: SortOrder
+    username?: SortOrder
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -5398,18 +4426,14 @@ export namespace Prisma {
     OR?: Enumerable<UserScalarWhereWithAggregatesInput>
     NOT?: Enumerable<UserScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    name?: StringWithAggregatesFilter | string
+    username?: StringWithAggregatesFilter | string
     email?: StringWithAggregatesFilter | string
     password?: StringWithAggregatesFilter | string
     role?: StringWithAggregatesFilter | string
-    createdAt?: DateTimeWithAggregatesFilter | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
   export type HotelCreateInput = {
     id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
     type: string
     city: string
     address: string
@@ -5418,17 +4442,15 @@ export namespace Prisma {
     name: string
     desc: string
     rating?: number
-    cheapestPrice: number
+    cheapestPrice?: number
     featured?: boolean
-    photos?: PhotoCreateNestedManyWithoutHotelInput
+    photos?: HotelCreatephotosInput | Enumerable<string>
     rooms?: RoomCreateNestedManyWithoutHotelInput
     user: UserCreateNestedOneWithoutHotelInput
   }
 
   export type HotelUncheckedCreateInput = {
     id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
     type: string
     city: string
     address: string
@@ -5437,16 +4459,14 @@ export namespace Prisma {
     name: string
     desc: string
     rating?: number
-    cheapestPrice: number
+    cheapestPrice?: number
     featured?: boolean
-    photos?: PhotoUncheckedCreateNestedManyWithoutHotelInput
+    photos?: HotelCreatephotosInput | Enumerable<string>
     rooms?: RoomUncheckedCreateNestedManyWithoutHotelInput
     userId: string
   }
 
   export type HotelUpdateInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     type?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
@@ -5457,14 +4477,12 @@ export namespace Prisma {
     rating?: IntFieldUpdateOperationsInput | number
     cheapestPrice?: IntFieldUpdateOperationsInput | number
     featured?: BoolFieldUpdateOperationsInput | boolean
-    photos?: PhotoUpdateManyWithoutHotelNestedInput
+    photos?: HotelUpdatephotosInput | Enumerable<string>
     rooms?: RoomUpdateManyWithoutHotelNestedInput
     user?: UserUpdateOneRequiredWithoutHotelNestedInput
   }
 
   export type HotelUncheckedUpdateInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     type?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
@@ -5475,15 +4493,13 @@ export namespace Prisma {
     rating?: IntFieldUpdateOperationsInput | number
     cheapestPrice?: IntFieldUpdateOperationsInput | number
     featured?: BoolFieldUpdateOperationsInput | boolean
-    photos?: PhotoUncheckedUpdateManyWithoutHotelNestedInput
+    photos?: HotelUpdatephotosInput | Enumerable<string>
     rooms?: RoomUncheckedUpdateManyWithoutHotelNestedInput
     userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type HotelCreateManyInput = {
     id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
     type: string
     city: string
     address: string
@@ -5492,14 +4508,13 @@ export namespace Prisma {
     name: string
     desc: string
     rating?: number
-    cheapestPrice: number
+    cheapestPrice?: number
     featured?: boolean
+    photos?: HotelCreatephotosInput | Enumerable<string>
     userId: string
   }
 
   export type HotelUpdateManyMutationInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     type?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
@@ -5510,11 +4525,10 @@ export namespace Prisma {
     rating?: IntFieldUpdateOperationsInput | number
     cheapestPrice?: IntFieldUpdateOperationsInput | number
     featured?: BoolFieldUpdateOperationsInput | boolean
+    photos?: HotelUpdatephotosInput | Enumerable<string>
   }
 
   export type HotelUncheckedUpdateManyInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     type?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
@@ -5525,172 +4539,122 @@ export namespace Prisma {
     rating?: IntFieldUpdateOperationsInput | number
     cheapestPrice?: IntFieldUpdateOperationsInput | number
     featured?: BoolFieldUpdateOperationsInput | boolean
+    photos?: HotelUpdatephotosInput | Enumerable<string>
     userId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type PhotoCreateInput = {
-    id?: string
-    name: string
-    hotel: HotelCreateNestedOneWithoutPhotosInput
-  }
-
-  export type PhotoUncheckedCreateInput = {
-    id?: string
-    name: string
-    hotelId: string
-  }
-
-  export type PhotoUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    hotel?: HotelUpdateOneRequiredWithoutPhotosNestedInput
-  }
-
-  export type PhotoUncheckedUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    hotelId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type PhotoCreateManyInput = {
-    id?: string
-    name: string
-    hotelId: string
-  }
-
-  export type PhotoUpdateManyMutationInput = {
-    name?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type PhotoUncheckedUpdateManyInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    hotelId?: StringFieldUpdateOperationsInput | string
   }
 
   export type RoomCreateInput = {
     id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    name: string
-    status?: boolean
+    title: string
+    price: number
+    maxPeople: number
+    roomNumber?: XOR<RoomNumberListCreateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
     hotel: HotelCreateNestedOneWithoutRoomsInput
   }
 
   export type RoomUncheckedCreateInput = {
     id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    name: string
-    status?: boolean
+    title: string
+    price: number
+    maxPeople: number
+    roomNumber?: XOR<RoomNumberListCreateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
     hotelId: string
   }
 
   export type RoomUpdateInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    name?: StringFieldUpdateOperationsInput | string
-    status?: BoolFieldUpdateOperationsInput | boolean
+    title?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    maxPeople?: IntFieldUpdateOperationsInput | number
+    roomNumber?: XOR<RoomNumberListUpdateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
     hotel?: HotelUpdateOneRequiredWithoutRoomsNestedInput
   }
 
   export type RoomUncheckedUpdateInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    name?: StringFieldUpdateOperationsInput | string
-    status?: BoolFieldUpdateOperationsInput | boolean
+    title?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    maxPeople?: IntFieldUpdateOperationsInput | number
+    roomNumber?: XOR<RoomNumberListUpdateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
     hotelId?: StringFieldUpdateOperationsInput | string
   }
 
   export type RoomCreateManyInput = {
     id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    name: string
-    status?: boolean
+    title: string
+    price: number
+    maxPeople: number
+    roomNumber?: XOR<RoomNumberListCreateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
     hotelId: string
   }
 
   export type RoomUpdateManyMutationInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    name?: StringFieldUpdateOperationsInput | string
-    status?: BoolFieldUpdateOperationsInput | boolean
+    title?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    maxPeople?: IntFieldUpdateOperationsInput | number
+    roomNumber?: XOR<RoomNumberListUpdateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
   }
 
   export type RoomUncheckedUpdateManyInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    name?: StringFieldUpdateOperationsInput | string
-    status?: BoolFieldUpdateOperationsInput | boolean
+    title?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    maxPeople?: IntFieldUpdateOperationsInput | number
+    roomNumber?: XOR<RoomNumberListUpdateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
     hotelId?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserCreateInput = {
     id?: string
-    name: string
+    username: string
     email: string
     password: string
     role?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
     hotel?: HotelCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
     id?: string
-    name: string
+    username: string
     email: string
     password: string
     role?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
     hotel?: HotelUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hotel?: HotelUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     hotel?: HotelUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
     id?: string
-    name: string
+    username: string
     email: string
     password: string
     role?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type UserUpdateManyMutationInput = {
-    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUncheckedUpdateManyInput = {
-    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter = {
@@ -5706,17 +4670,6 @@ export namespace Prisma {
     endsWith?: string
     mode?: QueryMode
     not?: NestedStringFilter | string
-  }
-
-  export type DateTimeFilter = {
-    equals?: Date | string
-    in?: Enumerable<Date> | Enumerable<string>
-    notIn?: Enumerable<Date> | Enumerable<string>
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeFilter | Date | string
   }
 
   export type IntFilter = {
@@ -5735,10 +4688,12 @@ export namespace Prisma {
     not?: NestedBoolFilter | boolean
   }
 
-  export type PhotoListRelationFilter = {
-    every?: PhotoWhereInput
-    some?: PhotoWhereInput
-    none?: PhotoWhereInput
+  export type StringNullableListFilter = {
+    equals?: Enumerable<string> | null
+    has?: string | null
+    hasEvery?: Enumerable<string>
+    hasSome?: Enumerable<string>
+    isEmpty?: boolean
   }
 
   export type RoomListRelationFilter = {
@@ -5752,18 +4707,12 @@ export namespace Prisma {
     isNot?: UserWhereInput
   }
 
-  export type PhotoOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type RoomOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type HotelCountOrderByAggregateInput = {
     id?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
     type?: SortOrder
     city?: SortOrder
     address?: SortOrder
@@ -5774,6 +4723,7 @@ export namespace Prisma {
     rating?: SortOrder
     cheapestPrice?: SortOrder
     featured?: SortOrder
+    photos?: SortOrder
     userId?: SortOrder
   }
 
@@ -5784,8 +4734,6 @@ export namespace Prisma {
 
   export type HotelMaxOrderByAggregateInput = {
     id?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
     type?: SortOrder
     city?: SortOrder
     address?: SortOrder
@@ -5801,8 +4749,6 @@ export namespace Prisma {
 
   export type HotelMinOrderByAggregateInput = {
     id?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
     type?: SortOrder
     city?: SortOrder
     address?: SortOrder
@@ -5839,20 +4785,6 @@ export namespace Prisma {
     _max?: NestedStringFilter
   }
 
-  export type DateTimeWithAggregatesFilter = {
-    equals?: Date | string
-    in?: Enumerable<Date> | Enumerable<string>
-    notIn?: Enumerable<Date> | Enumerable<string>
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeWithAggregatesFilter | Date | string
-    _count?: NestedIntFilter
-    _min?: NestedDateTimeFilter
-    _max?: NestedDateTimeFilter
-  }
-
   export type IntWithAggregatesFilter = {
     equals?: number
     in?: Enumerable<number>
@@ -5877,54 +4809,61 @@ export namespace Prisma {
     _max?: NestedBoolFilter
   }
 
+  export type RoomNumberCompositeListFilter = {
+    equals?: Enumerable<RoomNumberObjectEqualityInput>
+    every?: RoomNumberWhereInput
+    some?: RoomNumberWhereInput
+    none?: RoomNumberWhereInput
+    isEmpty?: boolean
+    isSet?: boolean
+  }
+
+  export type RoomNumberObjectEqualityInput = {
+    number: string
+    unavailableDates?: Enumerable<Date> | Enumerable<string>
+  }
+
   export type HotelRelationFilter = {
     is?: HotelWhereInput
     isNot?: HotelWhereInput
   }
 
-  export type PhotoCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    hotelId?: SortOrder
-  }
-
-  export type PhotoMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    hotelId?: SortOrder
-  }
-
-  export type PhotoMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    hotelId?: SortOrder
+  export type RoomNumberOrderByCompositeAggregateInput = {
+    _count?: SortOrder
   }
 
   export type RoomCountOrderByAggregateInput = {
     id?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    name?: SortOrder
-    status?: SortOrder
+    title?: SortOrder
+    price?: SortOrder
+    maxPeople?: SortOrder
     hotelId?: SortOrder
+  }
+
+  export type RoomAvgOrderByAggregateInput = {
+    price?: SortOrder
+    maxPeople?: SortOrder
   }
 
   export type RoomMaxOrderByAggregateInput = {
     id?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    name?: SortOrder
-    status?: SortOrder
+    title?: SortOrder
+    price?: SortOrder
+    maxPeople?: SortOrder
     hotelId?: SortOrder
   }
 
   export type RoomMinOrderByAggregateInput = {
     id?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    name?: SortOrder
-    status?: SortOrder
+    title?: SortOrder
+    price?: SortOrder
+    maxPeople?: SortOrder
     hotelId?: SortOrder
+  }
+
+  export type RoomSumOrderByAggregateInput = {
+    price?: SortOrder
+    maxPeople?: SortOrder
   }
 
   export type HotelListRelationFilter = {
@@ -5939,39 +4878,30 @@ export namespace Prisma {
 
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
+    username?: SortOrder
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
+    username?: SortOrder
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
+    username?: SortOrder
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
   }
 
-  export type PhotoCreateNestedManyWithoutHotelInput = {
-    create?: XOR<Enumerable<PhotoCreateWithoutHotelInput>, Enumerable<PhotoUncheckedCreateWithoutHotelInput>>
-    connectOrCreate?: Enumerable<PhotoCreateOrConnectWithoutHotelInput>
-    createMany?: PhotoCreateManyHotelInputEnvelope
-    connect?: Enumerable<PhotoWhereUniqueInput>
+  export type HotelCreatephotosInput = {
+    set: Enumerable<string>
   }
 
   export type RoomCreateNestedManyWithoutHotelInput = {
@@ -5987,22 +4917,11 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type PhotoUncheckedCreateNestedManyWithoutHotelInput = {
-    create?: XOR<Enumerable<PhotoCreateWithoutHotelInput>, Enumerable<PhotoUncheckedCreateWithoutHotelInput>>
-    connectOrCreate?: Enumerable<PhotoCreateOrConnectWithoutHotelInput>
-    createMany?: PhotoCreateManyHotelInputEnvelope
-    connect?: Enumerable<PhotoWhereUniqueInput>
-  }
-
   export type RoomUncheckedCreateNestedManyWithoutHotelInput = {
     create?: XOR<Enumerable<RoomCreateWithoutHotelInput>, Enumerable<RoomUncheckedCreateWithoutHotelInput>>
     connectOrCreate?: Enumerable<RoomCreateOrConnectWithoutHotelInput>
     createMany?: RoomCreateManyHotelInputEnvelope
     connect?: Enumerable<RoomWhereUniqueInput>
-  }
-
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -6021,18 +4940,9 @@ export namespace Prisma {
     set?: boolean
   }
 
-  export type PhotoUpdateManyWithoutHotelNestedInput = {
-    create?: XOR<Enumerable<PhotoCreateWithoutHotelInput>, Enumerable<PhotoUncheckedCreateWithoutHotelInput>>
-    connectOrCreate?: Enumerable<PhotoCreateOrConnectWithoutHotelInput>
-    upsert?: Enumerable<PhotoUpsertWithWhereUniqueWithoutHotelInput>
-    createMany?: PhotoCreateManyHotelInputEnvelope
-    set?: Enumerable<PhotoWhereUniqueInput>
-    disconnect?: Enumerable<PhotoWhereUniqueInput>
-    delete?: Enumerable<PhotoWhereUniqueInput>
-    connect?: Enumerable<PhotoWhereUniqueInput>
-    update?: Enumerable<PhotoUpdateWithWhereUniqueWithoutHotelInput>
-    updateMany?: Enumerable<PhotoUpdateManyWithWhereWithoutHotelInput>
-    deleteMany?: Enumerable<PhotoScalarWhereInput>
+  export type HotelUpdatephotosInput = {
+    set?: Enumerable<string>
+    push?: string | Enumerable<string>
   }
 
   export type RoomUpdateManyWithoutHotelNestedInput = {
@@ -6057,20 +4967,6 @@ export namespace Prisma {
     update?: XOR<UserUpdateWithoutHotelInput, UserUncheckedUpdateWithoutHotelInput>
   }
 
-  export type PhotoUncheckedUpdateManyWithoutHotelNestedInput = {
-    create?: XOR<Enumerable<PhotoCreateWithoutHotelInput>, Enumerable<PhotoUncheckedCreateWithoutHotelInput>>
-    connectOrCreate?: Enumerable<PhotoCreateOrConnectWithoutHotelInput>
-    upsert?: Enumerable<PhotoUpsertWithWhereUniqueWithoutHotelInput>
-    createMany?: PhotoCreateManyHotelInputEnvelope
-    set?: Enumerable<PhotoWhereUniqueInput>
-    disconnect?: Enumerable<PhotoWhereUniqueInput>
-    delete?: Enumerable<PhotoWhereUniqueInput>
-    connect?: Enumerable<PhotoWhereUniqueInput>
-    update?: Enumerable<PhotoUpdateWithWhereUniqueWithoutHotelInput>
-    updateMany?: Enumerable<PhotoUpdateManyWithWhereWithoutHotelInput>
-    deleteMany?: Enumerable<PhotoScalarWhereInput>
-  }
-
   export type RoomUncheckedUpdateManyWithoutHotelNestedInput = {
     create?: XOR<Enumerable<RoomCreateWithoutHotelInput>, Enumerable<RoomUncheckedCreateWithoutHotelInput>>
     connectOrCreate?: Enumerable<RoomCreateOrConnectWithoutHotelInput>
@@ -6085,24 +4981,26 @@ export namespace Prisma {
     deleteMany?: Enumerable<RoomScalarWhereInput>
   }
 
-  export type HotelCreateNestedOneWithoutPhotosInput = {
-    create?: XOR<HotelCreateWithoutPhotosInput, HotelUncheckedCreateWithoutPhotosInput>
-    connectOrCreate?: HotelCreateOrConnectWithoutPhotosInput
-    connect?: HotelWhereUniqueInput
+  export type RoomNumberListCreateEnvelopeInput = {
+    set?: Enumerable<RoomNumberCreateInput>
   }
 
-  export type HotelUpdateOneRequiredWithoutPhotosNestedInput = {
-    create?: XOR<HotelCreateWithoutPhotosInput, HotelUncheckedCreateWithoutPhotosInput>
-    connectOrCreate?: HotelCreateOrConnectWithoutPhotosInput
-    upsert?: HotelUpsertWithoutPhotosInput
-    connect?: HotelWhereUniqueInput
-    update?: XOR<HotelUpdateWithoutPhotosInput, HotelUncheckedUpdateWithoutPhotosInput>
+  export type RoomNumberCreateInput = {
+    number: string
+    unavailableDates?: RoomNumberCreateunavailableDatesInput | Enumerable<Date> | Enumerable<string>
   }
 
   export type HotelCreateNestedOneWithoutRoomsInput = {
     create?: XOR<HotelCreateWithoutRoomsInput, HotelUncheckedCreateWithoutRoomsInput>
     connectOrCreate?: HotelCreateOrConnectWithoutRoomsInput
     connect?: HotelWhereUniqueInput
+  }
+
+  export type RoomNumberListUpdateEnvelopeInput = {
+    set?: Enumerable<RoomNumberCreateInput>
+    push?: Enumerable<RoomNumberCreateInput>
+    updateMany?: RoomNumberUpdateManyInput
+    deleteMany?: RoomNumberDeleteManyInput
   }
 
   export type HotelUpdateOneRequiredWithoutRoomsNestedInput = {
@@ -6169,17 +5067,6 @@ export namespace Prisma {
     not?: NestedStringFilter | string
   }
 
-  export type NestedDateTimeFilter = {
-    equals?: Date | string
-    in?: Enumerable<Date> | Enumerable<string>
-    notIn?: Enumerable<Date> | Enumerable<string>
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeFilter | Date | string
-  }
-
   export type NestedIntFilter = {
     equals?: number
     in?: Enumerable<number>
@@ -6211,20 +5098,6 @@ export namespace Prisma {
     _count?: NestedIntFilter
     _min?: NestedStringFilter
     _max?: NestedStringFilter
-  }
-
-  export type NestedDateTimeWithAggregatesFilter = {
-    equals?: Date | string
-    in?: Enumerable<Date> | Enumerable<string>
-    notIn?: Enumerable<Date> | Enumerable<string>
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeWithAggregatesFilter | Date | string
-    _count?: NestedIntFilter
-    _min?: NestedDateTimeFilter
-    _max?: NestedDateTimeFilter
   }
 
   export type NestedIntWithAggregatesFilter = {
@@ -6262,39 +5135,28 @@ export namespace Prisma {
     _max?: NestedBoolFilter
   }
 
-  export type PhotoCreateWithoutHotelInput = {
-    id?: string
-    name: string
-  }
-
-  export type PhotoUncheckedCreateWithoutHotelInput = {
-    id?: string
-    name: string
-  }
-
-  export type PhotoCreateOrConnectWithoutHotelInput = {
-    where: PhotoWhereUniqueInput
-    create: XOR<PhotoCreateWithoutHotelInput, PhotoUncheckedCreateWithoutHotelInput>
-  }
-
-  export type PhotoCreateManyHotelInputEnvelope = {
-    data: Enumerable<PhotoCreateManyHotelInput>
+  export type RoomNumberWhereInput = {
+    AND?: Enumerable<RoomNumberWhereInput>
+    OR?: Enumerable<RoomNumberWhereInput>
+    NOT?: Enumerable<RoomNumberWhereInput>
+    number?: StringFilter | string
+    unavailableDates?: DateTimeNullableListFilter
   }
 
   export type RoomCreateWithoutHotelInput = {
     id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    name: string
-    status?: boolean
+    title: string
+    price: number
+    maxPeople: number
+    roomNumber?: XOR<RoomNumberListCreateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
   }
 
   export type RoomUncheckedCreateWithoutHotelInput = {
     id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    name: string
-    status?: boolean
+    title: string
+    price: number
+    maxPeople: number
+    roomNumber?: XOR<RoomNumberListCreateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
   }
 
   export type RoomCreateOrConnectWithoutHotelInput = {
@@ -6308,52 +5170,23 @@ export namespace Prisma {
 
   export type UserCreateWithoutHotelInput = {
     id?: string
-    name: string
+    username: string
     email: string
     password: string
     role?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type UserUncheckedCreateWithoutHotelInput = {
     id?: string
-    name: string
+    username: string
     email: string
     password: string
     role?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
   }
 
   export type UserCreateOrConnectWithoutHotelInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutHotelInput, UserUncheckedCreateWithoutHotelInput>
-  }
-
-  export type PhotoUpsertWithWhereUniqueWithoutHotelInput = {
-    where: PhotoWhereUniqueInput
-    update: XOR<PhotoUpdateWithoutHotelInput, PhotoUncheckedUpdateWithoutHotelInput>
-    create: XOR<PhotoCreateWithoutHotelInput, PhotoUncheckedCreateWithoutHotelInput>
-  }
-
-  export type PhotoUpdateWithWhereUniqueWithoutHotelInput = {
-    where: PhotoWhereUniqueInput
-    data: XOR<PhotoUpdateWithoutHotelInput, PhotoUncheckedUpdateWithoutHotelInput>
-  }
-
-  export type PhotoUpdateManyWithWhereWithoutHotelInput = {
-    where: PhotoScalarWhereInput
-    data: XOR<PhotoUpdateManyMutationInput, PhotoUncheckedUpdateManyWithoutPhotosInput>
-  }
-
-  export type PhotoScalarWhereInput = {
-    AND?: Enumerable<PhotoScalarWhereInput>
-    OR?: Enumerable<PhotoScalarWhereInput>
-    NOT?: Enumerable<PhotoScalarWhereInput>
-    id?: StringFilter | string
-    name?: StringFilter | string
-    hotelId?: StringFilter | string
   }
 
   export type RoomUpsertWithWhereUniqueWithoutHotelInput = {
@@ -6377,10 +5210,9 @@ export namespace Prisma {
     OR?: Enumerable<RoomScalarWhereInput>
     NOT?: Enumerable<RoomScalarWhereInput>
     id?: StringFilter | string
-    createdAt?: DateTimeFilter | Date | string
-    updatedAt?: DateTimeFilter | Date | string
-    name?: StringFilter | string
-    status?: BoolFilter | boolean
+    title?: StringFilter | string
+    price?: IntFilter | number
+    maxPeople?: IntFilter | number
     hotelId?: StringFilter | string
   }
 
@@ -6390,107 +5222,25 @@ export namespace Prisma {
   }
 
   export type UserUpdateWithoutHotelInput = {
-    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUncheckedUpdateWithoutHotelInput = {
-    name?: StringFieldUpdateOperationsInput | string
+    username?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type HotelCreateWithoutPhotosInput = {
-    id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    type: string
-    city: string
-    address: string
-    distance: string
-    title: string
-    name: string
-    desc: string
-    rating?: number
-    cheapestPrice: number
-    featured?: boolean
-    rooms?: RoomCreateNestedManyWithoutHotelInput
-    user: UserCreateNestedOneWithoutHotelInput
-  }
-
-  export type HotelUncheckedCreateWithoutPhotosInput = {
-    id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    type: string
-    city: string
-    address: string
-    distance: string
-    title: string
-    name: string
-    desc: string
-    rating?: number
-    cheapestPrice: number
-    featured?: boolean
-    rooms?: RoomUncheckedCreateNestedManyWithoutHotelInput
-    userId: string
-  }
-
-  export type HotelCreateOrConnectWithoutPhotosInput = {
-    where: HotelWhereUniqueInput
-    create: XOR<HotelCreateWithoutPhotosInput, HotelUncheckedCreateWithoutPhotosInput>
-  }
-
-  export type HotelUpsertWithoutPhotosInput = {
-    update: XOR<HotelUpdateWithoutPhotosInput, HotelUncheckedUpdateWithoutPhotosInput>
-    create: XOR<HotelCreateWithoutPhotosInput, HotelUncheckedCreateWithoutPhotosInput>
-  }
-
-  export type HotelUpdateWithoutPhotosInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    type?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    distance?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    desc?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    cheapestPrice?: IntFieldUpdateOperationsInput | number
-    featured?: BoolFieldUpdateOperationsInput | boolean
-    rooms?: RoomUpdateManyWithoutHotelNestedInput
-    user?: UserUpdateOneRequiredWithoutHotelNestedInput
-  }
-
-  export type HotelUncheckedUpdateWithoutPhotosInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    type?: StringFieldUpdateOperationsInput | string
-    city?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    distance?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    desc?: StringFieldUpdateOperationsInput | string
-    rating?: IntFieldUpdateOperationsInput | number
-    cheapestPrice?: IntFieldUpdateOperationsInput | number
-    featured?: BoolFieldUpdateOperationsInput | boolean
-    rooms?: RoomUncheckedUpdateManyWithoutHotelNestedInput
-    userId?: StringFieldUpdateOperationsInput | string
+  export type RoomNumberCreateunavailableDatesInput = {
+    set: Enumerable<Date> | Enumerable<string>
   }
 
   export type HotelCreateWithoutRoomsInput = {
     id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
     type: string
     city: string
     address: string
@@ -6499,16 +5249,14 @@ export namespace Prisma {
     name: string
     desc: string
     rating?: number
-    cheapestPrice: number
+    cheapestPrice?: number
     featured?: boolean
-    photos?: PhotoCreateNestedManyWithoutHotelInput
+    photos?: HotelCreatephotosInput | Enumerable<string>
     user: UserCreateNestedOneWithoutHotelInput
   }
 
   export type HotelUncheckedCreateWithoutRoomsInput = {
     id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
     type: string
     city: string
     address: string
@@ -6517,9 +5265,9 @@ export namespace Prisma {
     name: string
     desc: string
     rating?: number
-    cheapestPrice: number
+    cheapestPrice?: number
     featured?: boolean
-    photos?: PhotoUncheckedCreateNestedManyWithoutHotelInput
+    photos?: HotelCreatephotosInput | Enumerable<string>
     userId: string
   }
 
@@ -6528,14 +5276,21 @@ export namespace Prisma {
     create: XOR<HotelCreateWithoutRoomsInput, HotelUncheckedCreateWithoutRoomsInput>
   }
 
+  export type RoomNumberUpdateManyInput = {
+    where: RoomNumberWhereInput
+    data: RoomNumberUpdateInput
+  }
+
+  export type RoomNumberDeleteManyInput = {
+    where: RoomNumberWhereInput
+  }
+
   export type HotelUpsertWithoutRoomsInput = {
     update: XOR<HotelUpdateWithoutRoomsInput, HotelUncheckedUpdateWithoutRoomsInput>
     create: XOR<HotelCreateWithoutRoomsInput, HotelUncheckedCreateWithoutRoomsInput>
   }
 
   export type HotelUpdateWithoutRoomsInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     type?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
@@ -6546,13 +5301,11 @@ export namespace Prisma {
     rating?: IntFieldUpdateOperationsInput | number
     cheapestPrice?: IntFieldUpdateOperationsInput | number
     featured?: BoolFieldUpdateOperationsInput | boolean
-    photos?: PhotoUpdateManyWithoutHotelNestedInput
+    photos?: HotelUpdatephotosInput | Enumerable<string>
     user?: UserUpdateOneRequiredWithoutHotelNestedInput
   }
 
   export type HotelUncheckedUpdateWithoutRoomsInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     type?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
@@ -6563,14 +5316,12 @@ export namespace Prisma {
     rating?: IntFieldUpdateOperationsInput | number
     cheapestPrice?: IntFieldUpdateOperationsInput | number
     featured?: BoolFieldUpdateOperationsInput | boolean
-    photos?: PhotoUncheckedUpdateManyWithoutHotelNestedInput
+    photos?: HotelUpdatephotosInput | Enumerable<string>
     userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type HotelCreateWithoutUserInput = {
     id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
     type: string
     city: string
     address: string
@@ -6579,16 +5330,14 @@ export namespace Prisma {
     name: string
     desc: string
     rating?: number
-    cheapestPrice: number
+    cheapestPrice?: number
     featured?: boolean
-    photos?: PhotoCreateNestedManyWithoutHotelInput
+    photos?: HotelCreatephotosInput | Enumerable<string>
     rooms?: RoomCreateNestedManyWithoutHotelInput
   }
 
   export type HotelUncheckedCreateWithoutUserInput = {
     id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
     type: string
     city: string
     address: string
@@ -6597,9 +5346,9 @@ export namespace Prisma {
     name: string
     desc: string
     rating?: number
-    cheapestPrice: number
+    cheapestPrice?: number
     featured?: boolean
-    photos?: PhotoUncheckedCreateNestedManyWithoutHotelInput
+    photos?: HotelCreatephotosInput | Enumerable<string>
     rooms?: RoomUncheckedCreateNestedManyWithoutHotelInput
   }
 
@@ -6633,8 +5382,6 @@ export namespace Prisma {
     OR?: Enumerable<HotelScalarWhereInput>
     NOT?: Enumerable<HotelScalarWhereInput>
     id?: StringFilter | string
-    createdAt?: DateTimeFilter | Date | string
-    updatedAt?: DateTimeFilter | Date | string
     type?: StringFilter | string
     city?: StringFilter | string
     address?: StringFilter | string
@@ -6645,59 +5392,54 @@ export namespace Prisma {
     rating?: IntFilter | number
     cheapestPrice?: IntFilter | number
     featured?: BoolFilter | boolean
+    photos?: StringNullableListFilter
     userId?: StringFilter | string
   }
 
-  export type PhotoCreateManyHotelInput = {
-    id?: string
-    name: string
+  export type DateTimeNullableListFilter = {
+    equals?: Enumerable<Date> | Enumerable<string> | null
+    has?: Date | string | null
+    hasEvery?: Enumerable<Date> | Enumerable<string>
+    hasSome?: Enumerable<Date> | Enumerable<string>
+    isEmpty?: boolean
   }
 
   export type RoomCreateManyHotelInput = {
     id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    name: string
-    status?: boolean
-  }
-
-  export type PhotoUpdateWithoutHotelInput = {
-    name?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type PhotoUncheckedUpdateWithoutHotelInput = {
-    name?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type PhotoUncheckedUpdateManyWithoutPhotosInput = {
-    name?: StringFieldUpdateOperationsInput | string
+    title: string
+    price: number
+    maxPeople: number
+    roomNumber?: XOR<RoomNumberListCreateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
   }
 
   export type RoomUpdateWithoutHotelInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    name?: StringFieldUpdateOperationsInput | string
-    status?: BoolFieldUpdateOperationsInput | boolean
+    title?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    maxPeople?: IntFieldUpdateOperationsInput | number
+    roomNumber?: XOR<RoomNumberListUpdateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
   }
 
   export type RoomUncheckedUpdateWithoutHotelInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    name?: StringFieldUpdateOperationsInput | string
-    status?: BoolFieldUpdateOperationsInput | boolean
+    title?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    maxPeople?: IntFieldUpdateOperationsInput | number
+    roomNumber?: XOR<RoomNumberListUpdateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
   }
 
   export type RoomUncheckedUpdateManyWithoutRoomsInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    name?: StringFieldUpdateOperationsInput | string
-    status?: BoolFieldUpdateOperationsInput | boolean
+    title?: StringFieldUpdateOperationsInput | string
+    price?: IntFieldUpdateOperationsInput | number
+    maxPeople?: IntFieldUpdateOperationsInput | number
+    roomNumber?: XOR<RoomNumberListUpdateEnvelopeInput, Enumerable<RoomNumberCreateInput>>
+  }
+
+  export type RoomNumberUpdateInput = {
+    number?: StringFieldUpdateOperationsInput | string
+    unavailableDates?: RoomNumberUpdateunavailableDatesInput | Enumerable<Date> | Enumerable<string>
   }
 
   export type HotelCreateManyUserInput = {
     id?: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
     type: string
     city: string
     address: string
@@ -6706,13 +5448,12 @@ export namespace Prisma {
     name: string
     desc: string
     rating?: number
-    cheapestPrice: number
+    cheapestPrice?: number
     featured?: boolean
+    photos?: HotelCreatephotosInput | Enumerable<string>
   }
 
   export type HotelUpdateWithoutUserInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     type?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
@@ -6723,13 +5464,11 @@ export namespace Prisma {
     rating?: IntFieldUpdateOperationsInput | number
     cheapestPrice?: IntFieldUpdateOperationsInput | number
     featured?: BoolFieldUpdateOperationsInput | boolean
-    photos?: PhotoUpdateManyWithoutHotelNestedInput
+    photos?: HotelUpdatephotosInput | Enumerable<string>
     rooms?: RoomUpdateManyWithoutHotelNestedInput
   }
 
   export type HotelUncheckedUpdateWithoutUserInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     type?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
@@ -6740,13 +5479,11 @@ export namespace Prisma {
     rating?: IntFieldUpdateOperationsInput | number
     cheapestPrice?: IntFieldUpdateOperationsInput | number
     featured?: BoolFieldUpdateOperationsInput | boolean
-    photos?: PhotoUncheckedUpdateManyWithoutHotelNestedInput
+    photos?: HotelUpdatephotosInput | Enumerable<string>
     rooms?: RoomUncheckedUpdateManyWithoutHotelNestedInput
   }
 
   export type HotelUncheckedUpdateManyWithoutHotelInput = {
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     type?: StringFieldUpdateOperationsInput | string
     city?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
@@ -6757,6 +5494,12 @@ export namespace Prisma {
     rating?: IntFieldUpdateOperationsInput | number
     cheapestPrice?: IntFieldUpdateOperationsInput | number
     featured?: BoolFieldUpdateOperationsInput | boolean
+    photos?: HotelUpdatephotosInput | Enumerable<string>
+  }
+
+  export type RoomNumberUpdateunavailableDatesInput = {
+    set?: Enumerable<Date> | Enumerable<string>
+    push?: Date | string | Enumerable<Date> | Enumerable<string>
   }
 
 

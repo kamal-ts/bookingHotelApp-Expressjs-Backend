@@ -91,8 +91,6 @@ function makeEnum(x) { return x; }
 
 exports.Prisma.HotelScalarFieldEnum = makeEnum({
   id: 'id',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
   type: 'type',
   city: 'city',
   address: 'address',
@@ -103,13 +101,8 @@ exports.Prisma.HotelScalarFieldEnum = makeEnum({
   rating: 'rating',
   cheapestPrice: 'cheapestPrice',
   featured: 'featured',
+  photos: 'photos',
   userId: 'userId'
-});
-
-exports.Prisma.PhotoScalarFieldEnum = makeEnum({
-  id: 'id',
-  name: 'name',
-  hotelId: 'hotelId'
 });
 
 exports.Prisma.QueryMode = makeEnum({
@@ -119,10 +112,9 @@ exports.Prisma.QueryMode = makeEnum({
 
 exports.Prisma.RoomScalarFieldEnum = makeEnum({
   id: 'id',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  name: 'name',
-  status: 'status',
+  title: 'title',
+  price: 'price',
+  maxPeople: 'maxPeople',
   hotelId: 'hotelId'
 });
 
@@ -133,18 +125,15 @@ exports.Prisma.SortOrder = makeEnum({
 
 exports.Prisma.UserScalarFieldEnum = makeEnum({
   id: 'id',
-  name: 'name',
+  username: 'username',
   email: 'email',
   password: 'password',
-  role: 'role',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  role: 'role'
 });
 
 
 exports.Prisma.ModelName = makeEnum({
   Hotel: 'Hotel',
-  Photo: 'Photo',
   Room: 'Room',
   User: 'User'
 });
