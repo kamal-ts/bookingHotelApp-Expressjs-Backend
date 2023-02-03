@@ -19,7 +19,7 @@ const {
   objectEnumValues,
   makeStrictEnum,
   Extensions
-} = require('./runtime/index')
+} = require('./runtime/edge')
 
 
 const Prisma = {}
@@ -67,24 +67,7 @@ Prisma.NullTypes = {
 }
 
 
-  const path = require('path')
-
-const { findSync } = require('./runtime')
-const fs = require('fs')
-
-// some frameworks or bundlers replace or totally remove __dirname
-const hasDirname = typeof __dirname !== 'undefined' && __dirname !== '/'
-
-// will work in most cases, ie. if the client has not been bundled
-const regularDirname = hasDirname && fs.existsSync(path.join(__dirname, 'schema.prisma')) && __dirname
-
-// if the client has been bundled, we need to look for the folders
-const foundDirname = !regularDirname && findSync(process.cwd(), [
-    "generated/client",
-    "client",
-], ['d'], ['d'], 1)[0]
-
-const dirname = regularDirname || foundDirname || __dirname
+const dirname = '/'
 
 /**
  * Enums
@@ -179,13 +162,15 @@ config.inlineDatasources = {
   }
 }
 
+config.injectableEdgeEnv = {
+  parsed: {
+    DATABASE_URL: typeof globalThis !== 'undefined' && globalThis['DATABASE_URL'] || typeof process !== 'undefined' && process.env && process.env.DATABASE_URL || undefined
+  }
+}
 
-const { warnEnvConflicts } = require('./runtime/index')
-
-warnEnvConflicts({
-    rootEnvPath: config.relativeEnvPaths.rootEnvPath && path.resolve(dirname, config.relativeEnvPaths.rootEnvPath),
-    schemaEnvPath: config.relativeEnvPaths.schemaEnvPath && path.resolve(dirname, config.relativeEnvPaths.schemaEnvPath)
-})
+if (typeof globalThis !== 'undefined' && globalThis['DEBUG'] || typeof process !== 'undefined' && process.env && process.env.DEBUG || undefined) {
+  Debug.enable(typeof globalThis !== 'undefined' && globalThis['DEBUG'] || typeof process !== 'undefined' && process.env && process.env.DEBUG || undefined)
+}
 
 const PrismaClient = getPrismaClient(config)
 exports.PrismaClient = PrismaClient
