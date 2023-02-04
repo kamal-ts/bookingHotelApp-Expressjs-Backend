@@ -1,4 +1,4 @@
-import { Request, Response } from "npm:express@^4.18.2";
+import { Request, Response } from "npm:express";
 import db from "../utils/Databases.ts";
 import { hash } from "../../deps.ts";
 

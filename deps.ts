@@ -1,5 +1,5 @@
 import { config } from "https://deno.land/std@0.163.0/dotenv/mod.ts";
-import express from 'npm:express@^4.18.1';
+import express from 'npm:express';
 export {
     config,
     express,

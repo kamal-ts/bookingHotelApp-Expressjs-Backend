@@ -3,7 +3,7 @@ import {
     express
 } from './deps.ts';
 
-import { Express, Request, Response } from 'npm:express@^4.18.2';
+import { Express, Request, Response } from 'npm:express';
 import UserRoute from './src/routes/Users.ts';
 
 const envVars = await config();
