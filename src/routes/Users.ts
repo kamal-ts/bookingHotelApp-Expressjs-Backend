@@ -1,16 +1,13 @@
-import {express} from '../../deps.ts';
-import {
-    createUser,
-    getUser
-} from '../controller/userController.ts'
-const router = express.Router();
+import { Router } from "../../deps.ts";
+import { createUser, getUser } from "../controller/userController.ts";
 
-router.get("/users", getUser);
-// router.get("/users/:uuid", getUserById);
-router.post("/users", createUser);
-// router.put("/users/:uuid", updateUser);
-// router.delete("/users/:uuid", deleteUser);
+const router = new Router();
 
+router
+    .get("/users", getUser)
+    .get("/users/:id", "")
+    .post("/users", createUser)
+    .patch("/users/:id", "")
+    .delete("/users/:id", "");
 
-
-export default router
+export default router;

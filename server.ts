@@ -1,26 +1,33 @@
-import {
-    config,
-    express
-} from './deps.ts';
+import { config, Application } from "./deps.ts";
 
-import { Express, Request, Response } from 'npm:express';
-import UserRoute from './src/routes/Users.ts';
+import UserRoute from "./src/routes/Users.ts";
 
 const envVars = await config();
-const app: Express = express();
+const port = 5000 || envVars.PORT ;
+const app = new Application();
 
-app.use(express.json());
-
-app.use(UserRoute)
-
-app.use("/", (_req: Request, res: Response) => {
-    res.send("hello wordl");
-})
-
-
-
-
-app.listen(envVars.PORT || 5000, () => {
-    console.log(`server runing on port 5000 or ${envVars.PORT}`);
-    
+// Logger
+app.use(async (ctx, next) => {
+    await next();
+    const rt = ctx.response.headers.get("X-Response-Time");
+    console.log(`${ctx.request.method} ${ctx.request.url} - ${rt}`);
 });
+
+// Timing
+app.use(async (ctx, next) => {
+    const start = Date.now();
+    await next();
+    const ms = Date.now() - start;
+    ctx.response.headers.set("X-Response-Time", `${ms}ms`);
+});
+
+// user route
+app.use(UserRoute.routes());
+app.use(UserRoute.allowedMethods());
+
+// Hello World!
+app.use((ctx) => {
+    ctx.response.body = "Hello World!";
+});
+
+await app.listen({ port: port });
