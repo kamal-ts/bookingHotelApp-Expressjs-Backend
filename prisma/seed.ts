@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient } from "../generated/client/deno/edge.ts";
-import { config } from "https://deno.land/std@0.163.0/dotenv/mod.ts";
+import { config } from "../deps.ts";
 
 const envVars = await config();
 
@@ -28,7 +28,11 @@ const userData: Prisma.UserCreateInput[] = [
     username: "andis",
     email: "andis@gmail.com",
     password: "123",
-
+  },
+  {
+    username: "ceko",
+    email: "ceko@gmail.com",
+    password: "123",
   },
 ];
 
@@ -40,7 +44,7 @@ for (const u of userData) {
   const user = await prisma.user.create({
     data: u,
   });
-  console.log(`Created dinosaur with id: ${user.id}`);
+  console.log(`Created user with id: ${user.id}`);
 }
 console.log(`Seeding finished.`);
 
