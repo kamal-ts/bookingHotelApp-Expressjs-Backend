@@ -3,7 +3,7 @@ import { config, Application } from "./deps.ts";
 import UserRoute from "./src/routes/Users.ts";
 
 const envVars = await config();
-const port = 5000;
+const port = 5000 || envVars.PORT ;
 const app = new Application();
 
 // Logger
@@ -27,7 +27,7 @@ app.use(UserRoute.allowedMethods());
 
 // Hello World!
 app.use((ctx) => {
-    const env = Deno.env.get("HOME");
+    const env = Deno.env.get("DATABASE_URL")
     ctx.response.body = `Hello World! ${env}`;
 });
 
