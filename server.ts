@@ -27,8 +27,7 @@ app.use(UserRoute.allowedMethods());
 
 // Hello World!
 app.use((ctx) => {
-    const env = Deno.env.get("DATABASE_URL")
-    ctx.response.body = `Hello World! ${env}`;
+    ctx.response.body = `Hello World!`;
 });
 
 await app.listen({ port: port });
