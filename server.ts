@@ -1,9 +1,9 @@
-import { config, Application } from "./deps.ts";
+import { Application } from "./deps.ts";
 
 import UserRoute from "./src/routes/Users.ts";
 
-const envVars = await config();
-const port = 5000 || envVars.PORT ;
+// const envVars = await config();
+const port = 5000;
 const app = new Application();
 
 // Logger
