@@ -1,15 +1,8 @@
 import { Prisma, PrismaClient } from "../generated/client/deno/edge.ts";
 import { config } from "../deps.ts";
+import prisma from '../src/utils/Databases.ts'
 
 const envVars = await config();
-
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: envVars.DATABASE_URL,
-    },
-  },
-});
 
 const userData: Prisma.UserCreateInput[] = [
   {
