@@ -1,30 +1,17 @@
 import { Prisma } from "../generated/client/deno/edge.ts";
 import prisma from '../src/utils/Databases.ts'
 
-const userData: Prisma.UserCreateInput[] = [
-  {
-    username: "kamal",
-    email: "kamaluddin1623@gmail.com",
-    password: "123",
+const data: Prisma.UserCreateInput[] = [];
 
-  },
-  {
-    username: "wais",
-    email: "wais@gmail.com",
-    password: "123",
+for (let index = 1534; index <= 1000000; index++) {
+  data.push({
+      username: `user ${index}`,
+      email: `user${index}gmail.com`,
+      password: "123",     
+  })
+}
 
-  },
-  {
-    username: "andis",
-    email: "andis@gmail.com",
-    password: "123",
-  },
-  {
-    username: "ceko",
-    email: "ceko@gmail.com",
-    password: "123",
-  },
-];
+const userData: Prisma.UserCreateInput[] = data;
 
 /**
  * Seed the database.

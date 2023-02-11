@@ -1,6 +1,7 @@
 import { Application } from "./deps.ts";
 
 import UserRoute from "./src/routes/Users.ts";
+import HotelRoute from './src/routes/Hotels.ts';
 
 // const envVars = await config();
 const port = 5000;
@@ -21,9 +22,13 @@ app.use(async (ctx, next) => {
     ctx.response.headers.set("X-Response-Time", `${ms}ms`);
 });
 
-// user route
+// users route
 app.use(UserRoute.routes());
 app.use(UserRoute.allowedMethods());
+
+// hotels route
+app.use(HotelRoute.routes());
+app.use(HotelRoute.allowedMethods());
 
 // Hello World!
 app.use((ctx) => {

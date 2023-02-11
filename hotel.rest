@@ -1,7 +1,8 @@
 GET http://localhost:5000/hotels
 
 ### 
-POST http://localhost:5000/hotels Content-Type: application/json
+POST http://localhost:5000/hotels 
+Content-Type: application/json
 
 {
     "name":"hotel malo", 
@@ -12,7 +13,7 @@ POST http://localhost:5000/hotels Content-Type: application/json
     "title":"best hotel in city", 
     "desc":"hotel description", 
     "cheapestPrice":100,
-    "userUuid":"93bc4547-2585-4508-9e70-f54ad9d8c482"
+    "userId":"63dd4136c993d4f47cc96afd"
 
 }
 

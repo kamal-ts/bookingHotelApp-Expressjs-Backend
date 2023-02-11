@@ -1,4 +1,4 @@
-import {Request, Response} from '../../deps.ts'
+import { Request, Response } from '../../deps.ts'
 import db from "../utils/Databases.ts";
 import { hash } from "../../deps.ts";
 
@@ -10,76 +10,76 @@ type myCtx = {
 };
 
 
-export const getUser = async ({response}: myCtx) => {
-    try {
-        const users = await db.user.findMany({
-            select: {
-                id: true,
-                username: true,
-                email: true,
-                hotel: true,
-                role: true,
-            },
-        });
-        
-        response.status = 200;
-        response.body = {
-            success: true,
-            data: users
-        };
-        return;
-    } catch (error) {
-        response.status = 404;
-        response.body = {
-            success: false,
-            message: error.message
-        };
-    }
-};
+export default {
+    async getUser({ response }: myCtx) {
+        try {
+            const users = await db.user.findMany({
+                select: {
+                    id: true,
+                    username: true,
+                    email: true,
+                    hotel: true,
+                    role: true,
+                },
+            });
 
-// export const getUserById = async (req, res) => {
-
-// }
-
-export const createUser = async ({request, response}: myCtx) => {
-    const { username, email, password, confPassword, role } = await request.body().value;
-    if (password !== confPassword) {
-        response.status = 400
-        response.body = {
-            success : false,
-            message : "password dan confirm password tidak cocok"
+            response.status = 200;
+            response.body = {
+                success: true,
+                data: users
+            };
+            return;
+        } catch (error) {
+            response.status = 404;
+            response.body = {
+                success: false,
+                message: error.message
+            };
         }
-        return;
-    }
-    const hasPassword = await hash(password);
-    try {
-        const user = await db.user.create({
-            data: {
-                username,
-                email,
-                password: hasPassword,
-                role,
-            },
-        });
-        response.status = 201;
-        response.body = {
-            success: true,
-            data: user
+    },
+
+    async createUser({ request, response }: myCtx) {
+        if (!request.hasBody) {
+            response.status = 400;
+            response.body = {
+                success: false,
+                message: "No data provided",
+            };
+            return;
         }
-        return;
-    } catch (error) {
-        response.status = 400
-        response.body = {
-            success : false,
-            message : error.message
+
+        const { username, email, password, confPassword, role } = await request.body().value;
+        if (password !== confPassword) {
+            response.status = 400
+            response.body = {
+                success: false,
+                message: "password dan confirm password tidak cocok"
+            }
+            return;
+        }
+        const hasPassword = await hash(password);
+        try {
+            const user = await db.user.create({
+                data: {
+                    username,
+                    email,
+                    password: hasPassword,
+                    role,
+                },
+            });
+            response.status = 201;
+            response.body = {
+                success: true,
+                data: user
+            }
+            return;
+        } catch (error) {
+            response.status = 400
+            response.body = {
+                success: false,
+                message: error.message
+            }
         }
     }
-};
 
-// export const updateUser = async (req, res) => {
-
-// }
-
-// export const deleteUser = async (req, res) => {
-
-// }
+}

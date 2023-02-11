@@ -1,4 +1,10 @@
 {
     "deno.enable": true,
-    "deno.unstable": true
+    "deno.unstable": true,
+    // "deno.inlayHints.functionLikeReturnTypes.enabled": true,
+    "deno.inlayHints.variableTypes.enabled": true,
+    "deno.inlayHints.parameterTypes.enabled": true,
+    "deno.inlayHints.parameterNames.enabled": "all"
+
+
 }
