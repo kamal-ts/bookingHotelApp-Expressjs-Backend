@@ -1,5 +1,5 @@
 {
-  "name": "my-prisma-project",
+  "name": "bookinghotelapp-expressjs-backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,10 +9,15 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "prisma": "^4.9.0"
-  },
   "dependencies": {
-    "@prisma/client": "^4.9.0"
+    "@prisma/client": "^4.11.0",
+    "argon2": "^0.30.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.21"
+  },
+  "devDependencies": {
+    "prisma": "^4.11.0"
   }
 }
