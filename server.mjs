@@ -1,13 +1,13 @@
 import express from 'express'
 // import dotenv from 'dotenv'
-import cors from 'cors';
+// import cors from 'cors';
 import UserRoute from './src/routes/Users.mjs'
 import HotelRoute from './src/routes/Hotels.mjs'
 
 const app = express();
 const port = 5000
 
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 app.use(UserRoute);
 app.use(HotelRoute);

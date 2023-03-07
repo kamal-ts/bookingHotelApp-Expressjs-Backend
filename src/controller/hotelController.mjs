@@ -11,7 +11,7 @@ export default {
                 success: true,
                 data: hotels
             }
-        )
+        );
     },
 
     async createHotel(req, res) {
@@ -34,7 +34,7 @@ export default {
                     success : false,
                     message: "userid not found"
                 }
-            )
+            );
         }
         
         try {
@@ -58,14 +58,14 @@ export default {
                     data: result,
                     message: "Hotel created"
                 }
-            )
+            );
         } catch (error) {
             return res.status(400).json(
                 {
                     success: false,
                     message: error.message
                 }
-            )
+            );
         }
     }
 }

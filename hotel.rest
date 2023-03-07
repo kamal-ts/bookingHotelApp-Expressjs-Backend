@@ -25,10 +25,8 @@ POST http://localhost:5000/users
 Content-Type: application/json
 
 {
-    "username":"kamal3", 
-    "email":"kamal3@gemail.com", 
+    "username":"", 
+    "email":"coba1email.com", 
     "password":"123", 
-    "confPassword":"123", 
-    "role":"ADMIN"
-
+    "confPassword":"123"
 }

@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import argon2 from 'argon2'
+import argon2 from 'argon2';
+import {validationResult} from 'express-validator';
 
 const prisma = new PrismaClient();
 
@@ -15,7 +16,7 @@ export default {
                     role: true,
                 },
             });
-            
+
             return res.status(200).json(
                 {
                     success: true,
@@ -23,25 +24,29 @@ export default {
                 }
             );
         } catch (error) {
-            res.status(404).json(
+            res.status(500).json(
                 {
                     success: false,
                     message: error.message
                 }
-            )
+            );
         }
     },
 
     async createUser(req, res) {
-        
-        const { username, email, password, confPassword, role } = req.body;
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const { username, email, password, confPassword } = req.body;
         if (password !== confPassword) {
             return res.status(400).json(
                 {
                     success: false,
                     message: "password dan confirm password tidak cocok"
                 }
-            )
+            );
         }
         const hasPassword = await argon2.hash(password);
         try {
@@ -57,16 +62,17 @@ export default {
             return res.status(201).json(
                 {
                     success: true,
-                    data: user
+                    data: user,
+                    message: "Register Berhasil"
                 }
-            )
+            );
         } catch (error) {
             res.status(400).json(
                 {
                     success: false,
                     message: error.message
                 }
-            )
+            );
         }
     }
 
