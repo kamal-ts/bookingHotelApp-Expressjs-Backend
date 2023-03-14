@@ -13,7 +13,7 @@ Content-Type: application/json
     "title":"best hotel in city", 
     "desc":"hotel description", 
     "cheapestPrice":100,
-    "userId":"63dd4136c993d4f47cc96afd"
+    "userId":"64087b48f06143549b06a74c"
 
 }
 
@@ -25,8 +25,11 @@ POST http://localhost:5000/users
 Content-Type: application/json
 
 {
-    "username":"", 
-    "email":"coba1email.com", 
+    "username":"coba1", 
+    "email":"coba1@gemail.com", 
     "password":"123", 
     "confPassword":"123"
 }
+
+###
+GET http://localhost:5000/users/64087b48f06143549b06a74c

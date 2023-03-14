@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import argon2 from 'argon2';
 import {validationResult} from 'express-validator';
+import { createError } from '../utils/error.mjs';
 
 const prisma = new PrismaClient();
 
@@ -12,7 +13,6 @@ export default {
                     id: true,
                     username: true,
                     email: true,
-                    hotel: true,
                     role: true,
                 },
             });
@@ -55,7 +55,6 @@ export default {
                     username,
                     email,
                     password: hasPassword,
-                    role,
                 },
             });
 
@@ -74,6 +73,25 @@ export default {
                 }
             );
         }
+    },
+
+    async getUsersById(req, res, next){
+        try {
+            const user = await prisma.user.findFirst({
+                where: {
+                    id: req.params.id
+                }
+            })
+            res.status(200).json({
+                success: true,
+                data: user
+            })
+        } catch (error) {
+            next(error)
+        }
+
     }
+
+
 
 }
