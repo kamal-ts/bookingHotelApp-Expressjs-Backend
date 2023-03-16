@@ -36,6 +36,7 @@ export default {
         if (password !== confPassword) {
             next(createError(400, "password dan confirm password tidak cocok"));
         }
+
         const hasPassword = await argon2.hash(password);
         try {
             const user = await prisma.user.create({
