@@ -6,7 +6,7 @@ import { createError } from '../utils/error.mjs';
 const prisma = new PrismaClient();
 
 export default {
-    async getUser(_req, res) {
+    async getUser(_req, res, next) {
         try {
             const users = await prisma.user.findMany({
                 select: {
@@ -16,7 +16,6 @@ export default {
                     role: true,
                 },
             });
-
             return res.status(200).json(
                 {
                     success: true,
@@ -24,29 +23,18 @@ export default {
                 }
             );
         } catch (error) {
-            res.status(500).json(
-                {
-                    success: false,
-                    message: error.message
-                }
-            );
+            next(error);
         }
     },
 
-    async createUser(req, res) {
+    async createUser(req, res, next) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
-
         const { username, email, password, confPassword } = req.body;
         if (password !== confPassword) {
-            return res.status(400).json(
-                {
-                    success: false,
-                    message: "password dan confirm password tidak cocok"
-                }
-            );
+            next(createError(400, "password dan confirm password tidak cocok"));
         }
         const hasPassword = await argon2.hash(password);
         try {
@@ -66,12 +54,7 @@ export default {
                 }
             );
         } catch (error) {
-            res.status(400).json(
-                {
-                    success: false,
-                    message: error.message
-                }
-            );
+            next(error);
         }
     },
 
@@ -89,9 +72,5 @@ export default {
         } catch (error) {
             next(error)
         }
-
     }
-
-
-
 }

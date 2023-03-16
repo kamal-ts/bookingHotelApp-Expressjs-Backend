@@ -2,16 +2,16 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 generator client {
   provider = "prisma-client-js"
-}
+} 
 
 model Hotel {
-  id            Int      @id @default(autoincrement())
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
   type          String
   city          String
   address       String
@@ -19,39 +19,36 @@ model Hotel {
   title         String
   name          String
   desc          String
-  rating        Int      @default(0)
-  cheapestPrice Int      @default(0)
+  rating        Int      @default(0) @db.Int
+  cheapestPrice Int      @default(0) @db.Int
   featured      Boolean  @default(false)
   photos        String[]
   rooms         Room[]
   user          User     @relation(fields: [userId], references: [id])
-  userId        Int
+  userId        String   @db.ObjectId
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
 
 model Room {
-  id         Int          @id @default(autoincrement())
+  id         String       @id @default(auto()) @map("_id") @db.ObjectId
   title      String
-  price      Int
-  maxPeople  Int
+  price      Int          @db.Int
+  maxPeople  Int          @db.Int
   roomNumber RoomNumber[]
   hotel      Hotel        @relation(fields: [hotelId], references: [id])
-  hotelId    Int
+  hotelId    String       @db.ObjectId
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
-} 
+}
 
-model RoomNumber {
-  id               Int        @id @default(autoincrement())
-  room             Room       @relation(fields: [roomId], references: [id])
-  roomId           Int
+type RoomNumber {
   number           String
-  unavailableDates DateTime[] @db.Date
+  unavailableDates DateTime[]
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   username  String   @unique
   email     String   @unique
   password  String
@@ -59,4 +56,6 @@ model User {
   hotel     Hotel[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  
 }
