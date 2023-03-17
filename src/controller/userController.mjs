@@ -28,9 +28,24 @@ export default {
     },
 
     async createUser(req, res, next) {
-        const errors = validationResult(req);
+        const errorFormatter = ({ msg, param, value}) => {
+            // Build your resulting errors however you want! String, object, whatever - it works!
+            // return `${location}[${param}]: ${msg}`;
+            return {[param]: {
+                msg,
+                value
+            }}
+        };
+        const errors = validationResult(req).formatWith(errorFormatter);
+        // const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            return res.status(400).json(
+                
+                { 
+                    success: false,
+                    message: "invalid validation",
+                    errors: errors.array() 
+                });
         }
         const { username, email, password, confPassword } = req.body;
         if (password !== confPassword) {
