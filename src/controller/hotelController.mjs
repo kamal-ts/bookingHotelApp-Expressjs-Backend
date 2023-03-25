@@ -4,17 +4,22 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export default {
-    async getHotels(_req, res) {
-        const hotels = await prisma.hotel.findMany();
-        return res.status(200).json(
-            {
-                success: true,
-                data: hotels
-            }
-        );
+    async getHotels(_req, res, next) {
+
+        try{    
+            const hotels = await prisma.hotel.findMany();
+            return res.status(200).json(
+                {
+                    success: true,
+                    data: hotels
+                }
+                );
+        }catch (error) {
+            next(error);
+        }
     },
 
-    async createHotel(req, res) {
+    async createHotel(req, res, next) {
         const {
             name,
             type,
@@ -60,12 +65,7 @@ export default {
                 }
             );
         } catch (error) {
-            return res.status(400).json(
-                {
-                    success: false,
-                    message: error.message
-                }
-            );
+            next(error);
         }
     }
 }

@@ -1,4 +1,4 @@
-GET http://localhost:5000/hotels
+GET http://localhost:5000/v1/hotels
 
 ### 
 POST http://localhost:5000/hotels 
@@ -18,18 +18,18 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:5000/users 
+GET http://localhost:5000/v1/users 
 
 ###
-POST http://localhost:5000/users 
+POST http://localhost:5000/v1/users 
 Content-Type: application/json
 
 {
-    "username":"", 
-    "email":"coba1gmail.com", 
+    "username":"coba1", 
+    "email":"coba1@gmail.com", 
     "password":"123", 
     "confPassword":"123"
 }
 
 ###
-GET http://localhost:5000/users/64087b48f06143549b06a74c
+GET http://localhost:5000/v1/users/64087b48f06143549b06a74c

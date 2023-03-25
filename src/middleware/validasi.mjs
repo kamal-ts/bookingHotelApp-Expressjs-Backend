@@ -1,10 +1,41 @@
-import { body, validationResult } from 'express-validator';
+import { body } from 'express-validator';
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient();
 
 const register = [
     body('username')
-        .isLength({ min: 3 }).withMessage('username minimum of three characters'),
+        .isLength({ min: 3 }).withMessage('username minimum of three characters')
+        .custom(async (value) => {
+            const user = await prisma.user.findFirst({
+                where: {
+                    username: value
+                }
+            });
+            if(user){
+                throw new Error('Username has been used')
+            }
+            return true;
+        }),
     body('email')
         .isEmail().withMessage('invalid email')
+        .custom(async (value) => {
+            const user = await prisma.user.findFirst({
+                where: {
+                    email: value
+                }
+            });
+            if(user){
+                throw new Error('e-mail has been used')
+            }
+            return true;
+        }),
+    body('password').custom((value, { req }) => {
+        if (value !== req.body.confPassword) {
+            throw new Error('Password confirmation does not match password');
+        }
+        return true;
+    })
 ];
 
 const hotel = [
@@ -28,8 +59,6 @@ const hotel = [
         .notEmpty().withMessage('Cheapest Price cannot be empty').isInt().withMessage('Cheapest Price must be a integer'),
     body('featured')
         .notEmpty().withMessage('Featured cannot be empty').isBoolean().withMessage('Featured must be a boolean'),
-
-    
 
 ]
 

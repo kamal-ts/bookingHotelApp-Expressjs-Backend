@@ -6,8 +6,8 @@ const app = express();
 const port = 5000
 
 app.use(express.json());
-app.use(UserRoute);
-app.use(HotelRoute);
+app.use('/v1/users', UserRoute);
+app.use('/v1/hotels', HotelRoute);
 
 
 app.get('/', (_req, res) => {

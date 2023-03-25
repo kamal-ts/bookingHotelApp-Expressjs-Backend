@@ -3,10 +3,10 @@ import hotels from "../controller/hotelController.mjs";
 
 const router = express.Router();
 
-router.get("/hotels", hotels.getHotels)
-// router.get("/hotels/:id", "")
-router.post("/hotels", hotels.createHotel)
-// router.patch("/hotels/:id", "")
-// router.delete("/hotels/:id", "");
+router.get("/", hotels.getHotels)
+// router.get("//:id", "")
+router.post("/", hotels.createHotel)
+// router.patch("//:id", "")
+// router.delete("//:id", "");
 
 export default router;

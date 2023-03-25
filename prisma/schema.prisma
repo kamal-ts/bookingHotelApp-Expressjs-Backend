@@ -16,16 +16,16 @@ model Hotel {
   city          String
   address       String
   distance      String
-  title         String
-  name          String
+  title         String   
+  name          String   @unique
   desc          String
   rating        Int      @default(0)
   cheapestPrice Int      @default(0)
   featured      Boolean  @default(false)
-  photos        String[]
+  photos        String[]  
   rooms         Room[]
   user          User     @relation(fields: [userId], references: [id])
-  userId        Int
+  userId        String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
@@ -51,7 +51,7 @@ model RoomNumber {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String    @id @default(uuid()) 
   username  String   @unique
   email     String   @unique
   password  String
