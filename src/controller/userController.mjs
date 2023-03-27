@@ -29,8 +29,6 @@ export default {
 
     async createUser(req, res, next) {
         const errorFormatter = ({ msg, param, value}) => {
-            // Build your resulting errors however you want! String, object, whatever - it works!
-            // return `${location}[${param}]: ${msg}`;
             return {[param]: {
                 msg,
                 value
@@ -61,7 +59,6 @@ export default {
                     password: hasPassword,
                 },
             });
-
             return res.status(201).json(
                 {
                     success: true,
@@ -76,11 +73,17 @@ export default {
 
     async getUsersById(req, res, next){
         try {
+            // get data user
             const user = await prisma.user.findFirst({
                 where: {
                     id: req.params.id
                 }
             })
+            // cek data user
+            if (!user) {
+                return next(createError(404, "User not found"));
+            }
+            // respon
             res.status(200).json({
                 success: true,
                 data: user

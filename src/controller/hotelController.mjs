@@ -1,5 +1,6 @@
-
+import { createError } from '../utils/error.mjs';
 import { PrismaClient } from '@prisma/client';
+
 
 const prisma = new PrismaClient();
 
@@ -64,6 +65,27 @@ export default {
                     message: "Hotel created"
                 }
             );
+        } catch (error) {
+            next(error);
+        }
+    },
+
+    async getHotelsById(req, res, next){
+
+        try {
+            const hotel = await prisma.hotel.findFirst({
+                where: {
+                    id: Number(req.params.id)
+                }
+            })
+            if (!hotel) {
+                return next(createError(404, "Hotel not found"));
+            }
+            
+            return res.status(200).json({
+                success: true,
+                data: hotel
+            })
         } catch (error) {
             next(error);
         }

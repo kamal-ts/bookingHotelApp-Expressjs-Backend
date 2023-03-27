@@ -1,11 +1,11 @@
 GET http://localhost:5000/v1/hotels
 
 ### 
-POST http://localhost:5000/hotels 
+POST http://localhost:5000/v1/hotels 
 Content-Type: application/json
 
 {
-    "name":"hotel malo", 
+    "name":"hotel coba1", 
     "type":"hotel", 
     "city":"berlin", 
     "address":"somewhere", 
@@ -13,9 +13,12 @@ Content-Type: application/json
     "title":"best hotel in city", 
     "desc":"hotel description", 
     "cheapestPrice":100,
-    "userId":"64087b48f06143549b06a74c"
+    "userId":"a83b0223-a70b-46dd-8580-24b5406e1a90"
 
 }
+
+###
+GET http://localhost:5000/v1/hotels/4
 
 ###
 GET http://localhost:5000/v1/users 
@@ -25,11 +28,11 @@ POST http://localhost:5000/v1/users
 Content-Type: application/json
 
 {
-    "username":"coba1", 
-    "email":"coba1@gmail.com", 
+    "username":"coba2", 
+    "email":"coba2@gmail.com", 
     "password":"123", 
     "confPassword":"123"
 }
 
 ###
-GET http://localhost:5000/v1/users/64087b48f06143549b06a74c
+GET http://localhost:5000/v1/users/a83b0223-a70b-46dd-8580-24b5406e1a90
