@@ -89,5 +89,25 @@ export default {
         } catch (error) {
             next(error);
         }
-    }
+    },
+
+    async deleteHotels(req, res, next){
+        try{
+            const deleting = await prisma.hotel.delete({
+                where: {
+                    id: Number(req.params.id),
+                },
+            });
+            // if (!deleting) {
+            //     return next(createError(404, "User not found"));
+            // }
+            res.status(200).json({
+                success: true,
+                message: "User deleting",
+                data: deleting
+            });
+        }catch(error){
+            next(error);
+        }
+    },
 }

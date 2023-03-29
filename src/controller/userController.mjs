@@ -91,5 +91,29 @@ export default {
         } catch (error) {
             next(error)
         }
-    }
+    },
+
+    async deleteUsers(req, res, next){
+        try{
+
+            const deleting = await prisma.user.deleteMany({
+                where: {
+                    id: String(req.params.id),
+                },
+            });
+
+            // cek user yg terhapus
+            if (deleting.count < 1) {
+                return next(createError(404, "User not found"));
+            }
+            
+            res.status(200).json({
+                success: true,
+                message: "User deleting",
+            });
+        }catch(error){
+            next(error);
+        }
+    },
+
 }

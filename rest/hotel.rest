@@ -36,3 +36,7 @@ Content-Type: application/json
 
 ###
 GET http://localhost:5000/v1/users/a83b0223-a70b-46dd-8580-24b5406e1a90
+
+
+###
+DELETE http://localhost:5000/v1/users/a83b0223-a70b-46dd-8580-24b5406e1a90
