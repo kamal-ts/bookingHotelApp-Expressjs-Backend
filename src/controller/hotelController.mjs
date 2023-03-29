@@ -93,18 +93,20 @@ export default {
 
     async deleteHotels(req, res, next){
         try{
-            const deleting = await prisma.hotel.delete({
+            const deleting = await prisma.hotel.deleteMany({
                 where: {
                     id: Number(req.params.id),
                 },
             });
-            // if (!deleting) {
-            //     return next(createError(404, "User not found"));
-            // }
+
+            // cek data yg dihapus
+            if (deleting.count < 1) {
+                return next(createError(404, "Hotel not found"));
+            }
+            
             res.status(200).json({
                 success: true,
-                message: "User deleting",
-                data: deleting
+                message: "Hotel deleting",
             });
         }catch(error){
             next(error);

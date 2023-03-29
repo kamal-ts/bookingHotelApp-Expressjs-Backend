@@ -21,6 +21,9 @@ Content-Type: application/json
 GET http://localhost:5000/v1/hotels/4
 
 ###
+DELETE http://localhost:5000/v1/hotels/3
+
+###
 GET http://localhost:5000/v1/users 
 
 ###
@@ -28,8 +31,8 @@ POST http://localhost:5000/v1/users
 Content-Type: application/json
 
 {
-    "username":"coba2", 
-    "email":"coba2@gmail.com", 
+    "username":"coba3", 
+    "email":"coba3@gmail.com", 
     "password":"123", 
     "confPassword":"123"
 }
