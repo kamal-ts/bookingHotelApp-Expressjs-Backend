@@ -77,7 +77,13 @@ export default {
             const user = await prisma.user.findFirst({
                 where: {
                     id: req.params.id
-                }
+                },
+                select: {
+                    id: true,
+                    username: true,
+                    email: true,
+                    role: true,
+                },
             })
             // cek data user
             if (!user) {
@@ -95,7 +101,6 @@ export default {
 
     async deleteUsers(req, res, next){
         try{
-
             const deleting = await prisma.user.deleteMany({
                 where: {
                     id: String(req.params.id),

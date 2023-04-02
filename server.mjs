@@ -3,7 +3,6 @@ import UserRoute from './src/routes/Users.mjs'
 import HotelRoute from './src/routes/Hotels.mjs'
 
 const app = express();
-const port = 5000
 
 app.use(express.json());
 app.use('/v1/users', UserRoute);
@@ -26,6 +25,7 @@ app.use((err, _req, res, next) => {
     });
 })
 
+const port = process.env.PORT || 5000
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}!`);
 });
