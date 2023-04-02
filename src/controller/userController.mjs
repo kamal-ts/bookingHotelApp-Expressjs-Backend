@@ -71,6 +71,50 @@ export default {
         }
     },
 
+    async updateUser(req, res, next) {
+        const errorFormatter = ({ msg, param, value}) => {
+            return {[param]: {
+                msg,
+                value
+            }}
+        };
+        const errors = validationResult(req).formatWith(errorFormatter);
+        // const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json(
+                
+                { 
+                    success: false,
+                    message: "invalid validation",
+                    errors: errors.array() 
+                });
+        }
+        const { username, email, password, confPassword } = req.body;
+        if (password !== confPassword) {
+            next(createError(400, "password dan confirm password tidak cocok"));
+        }
+
+        const hasPassword = await argon2.hash(password);
+        try {
+            const user = await prisma.user.create({
+                data: {
+                    username,
+                    email,
+                    password: hasPassword,
+                },
+            });
+            return res.status(201).json(
+                {
+                    success: true,
+                    data: user,
+                    message: "Register Berhasil"
+                }
+            );
+        } catch (error) {
+            next(error);
+        }
+    },
+
     async getUsersById(req, res, next){
         try {
             // get data user
