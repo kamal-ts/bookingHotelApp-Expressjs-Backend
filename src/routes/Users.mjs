@@ -9,6 +9,6 @@ router.get("/", users.getUser)
 router.get("/:id", users.getUsersById)
 router.post("/", validasi.register, users.createUser)
 router.delete("/:id", users.deleteUsers);
-// router.patch("/users/:id", "")
+router.patch("/:id", validasi.updateUser, users.updateUser)
 
 export default router;

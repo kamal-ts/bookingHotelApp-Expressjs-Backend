@@ -3,17 +3,18 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient();
 
+
 const register = [
     body('username')
-        .isLength({ min: 3 }).withMessage('username minimum of three characters')
+        .isLength({ min: 3 }).withMessage('Username is too short')
         .custom(async (value) => {
-            const user = await prisma.user.findFirst({
+            const duplicateUsername = await prisma.user.findFirst({
                 where: {
                     username: value
                 }
             });
-            if(user){
-                throw new Error('Username has been used')
+            if (duplicateUsername) {
+                throw new Error('e-mail has been used')
             }
             return true;
         }),
@@ -25,18 +26,54 @@ const register = [
                     email: value
                 }
             });
-            if(user){
+            if (user) {
                 throw new Error('e-mail has been used')
             }
             return true;
         }),
     body('password').custom((value, { req }) => {
         if (value !== req.body.confPassword) {
-            throw new Error('Password confirmation does not match password');
+            throw new Error('Password and confirmation does not match password');
         }
         return true;
     })
 ];
+
+const updateUser = [
+    body('username')
+        .isLength({ min: 3 }).withMessage('Username is too short')
+        .custom(async (value) => {
+            const duplicateUsername = await prisma.user.findFirst({
+                where: {
+                    username: value
+                }
+            });
+            if (duplicateUsername) {
+                throw new Error('e-mail has been used')
+            }
+            return true;
+        }),
+    body('email')
+        .isEmail().withMessage('invalid email')
+        .custom(async (value) => {
+            const user = await prisma.user.findFirst({
+                where: {
+                    email: value
+                }
+            });
+            if (user) {
+                throw new Error('e-mail has been used')
+            }
+            return true;
+        }),
+    body('password').custom((value, { req }) => {
+        if (value !== req.body.confPassword) {
+            throw new Error('Password and confirmation does not match password');
+        }
+        return true;
+    })
+];
+
 
 const hotel = [
     body('type')
@@ -65,4 +102,5 @@ const hotel = [
 export default {
     register,
     hotel,
+    updateUser
 }

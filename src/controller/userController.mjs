@@ -1,9 +1,18 @@
 import { PrismaClient } from '@prisma/client';
 import argon2 from 'argon2';
-import {validationResult} from 'express-validator';
+import { validationResult } from 'express-validator';
 import { createError } from '../utils/error.mjs';
 
 const prisma = new PrismaClient();
+
+const errorFormatter = ({ msg, param, value }) => {
+    return {
+        [param]: {
+            msg,
+            value
+        }
+    }
+};
 
 export default {
     async getUser(_req, res, next) {
@@ -28,26 +37,37 @@ export default {
     },
 
     async createUser(req, res, next) {
-        const errorFormatter = ({ msg, param, value}) => {
-            return {[param]: {
-                msg,
-                value
-            }}
-        };
+
         const errors = validationResult(req).formatWith(errorFormatter);
         // const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json(
-                
-                { 
+                {
                     success: false,
                     message: "invalid validation",
-                    errors: errors.array() 
+                    errors: errors.array()
                 });
         }
-        const { username, email, password, confPassword } = req.body;
-        if (password !== confPassword) {
-            next(createError(400, "password dan confirm password tidak cocok"));
+
+        const { username, email, password } = req.body;
+
+        const duplicateUsername = await prisma.user.findFirst({
+            where: {
+                username
+            }
+        });
+        if (duplicateUsername) {
+            return res.status(400).json({
+                "success": false,
+                "message": "invalid validation",
+                "errors": [
+                    {
+                        "username": {
+                            "msg": "Username has been used"
+                        }
+                    }
+                ]
+            })
         }
 
         const hasPassword = await argon2.hash(password);
@@ -72,27 +92,26 @@ export default {
     },
 
     async updateUser(req, res, next) {
-        const errorFormatter = ({ msg, param, value}) => {
-            return {[param]: {
-                msg,
-                value
-            }}
+        const errorFormatter = ({ msg, param, value }) => {
+            return {
+                [param]: {
+                    msg,
+                    value
+                }
+            }
         };
         const errors = validationResult(req).formatWith(errorFormatter);
         // const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json(
-                
-                { 
+
+                {
                     success: false,
                     message: "invalid validation",
-                    errors: errors.array() 
+                    errors: errors.array()
                 });
         }
-        const { username, email, password, confPassword } = req.body;
-        if (password !== confPassword) {
-            next(createError(400, "password dan confirm password tidak cocok"));
-        }
+        const { username, email, password } = req.body;
 
         const hasPassword = await argon2.hash(password);
         try {
@@ -115,7 +134,7 @@ export default {
         }
     },
 
-    async getUsersById(req, res, next){
+    async getUsersById(req, res, next) {
         try {
             // get data user
             const user = await prisma.user.findFirst({
@@ -143,8 +162,8 @@ export default {
         }
     },
 
-    async deleteUsers(req, res, next){
-        try{
+    async deleteUsers(req, res, next) {
+        try {
             const deleting = await prisma.user.deleteMany({
                 where: {
                     id: String(req.params.id),
@@ -155,12 +174,12 @@ export default {
             if (deleting.count < 1) {
                 return next(createError(404, "User not found"));
             }
-            
+
             res.status(200).json({
                 success: true,
                 message: "User deleting",
             });
-        }catch(error){
+        } catch (error) {
             next(error);
         }
     },

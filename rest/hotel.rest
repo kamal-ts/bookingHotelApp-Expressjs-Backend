@@ -31,9 +31,9 @@ POST http://localhost:5000/v1/users
 Content-Type: application/json
 
 {
-    "username":"coba3", 
-    "email":"coba3@gmail.com", 
-    "password":"123", 
+    "username":"coba4", 
+    "email":"coba4@gmail.com", 
+    "password":"1232", 
     "confPassword":"123"
 }
 
