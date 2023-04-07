@@ -51,25 +51,6 @@ export default {
 
         const { username, email, password } = req.body;
 
-        const duplicateUsername = await prisma.user.findFirst({
-            where: {
-                username
-            }
-        });
-        if (duplicateUsername) {
-            return res.status(400).json({
-                "success": false,
-                "message": "invalid validation",
-                "errors": [
-                    {
-                        "username": {
-                            "msg": "Username has been used"
-                        }
-                    }
-                ]
-            })
-        }
-
         const hasPassword = await argon2.hash(password);
         try {
             const user = await prisma.user.create({

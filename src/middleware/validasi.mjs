@@ -42,26 +42,40 @@ const register = [
 const updateUser = [
     body('username')
         .isLength({ min: 3 }).withMessage('Username is too short')
-        .custom(async (value) => {
+        .custom(async (value, {req}) => {
+            const id = req.params.id;
+
+            const user = await prisma.user.findFirst({
+                where: {
+                    id
+                }
+            });
             const duplicateUsername = await prisma.user.findFirst({
                 where: {
                     username: value
                 }
             });
-            if (duplicateUsername) {
+
+            if (duplicateUsername && user.username !== value) {
                 throw new Error('e-mail has been used')
             }
             return true;
         }),
     body('email')
         .isEmail().withMessage('invalid email')
-        .custom(async (value) => {
+        .custom(async (value, {req}) => {
+            const id = req.params.id
             const user = await prisma.user.findFirst({
+                where: {
+                    id
+                }
+            });
+            const duplicateEmail = await prisma.user.findFirst({
                 where: {
                     email: value
                 }
             });
-            if (user) {
+            if (duplicateEmail && user.email !== value) {
                 throw new Error('e-mail has been used')
             }
             return true;
