@@ -23,6 +23,7 @@ export default {
                     username: true,
                     email: true,
                     role: true,
+                    hotel: true
                 },
             });
             return res.status(200).json(
