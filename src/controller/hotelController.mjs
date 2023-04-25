@@ -34,11 +34,11 @@ export default {
         } = await req.body;
         
         
-        if(!await prisma.user.findFirst({ where: { id: userId}})){
+        if(!await prisma.user.findFirst({ where: { id: userId, role: "ADMIN"}})){
             return res.status(400).json(
                 {
                     success : false,
-                    message: "userid not found"
+                    message: "user not found"
                 }
             );
         }

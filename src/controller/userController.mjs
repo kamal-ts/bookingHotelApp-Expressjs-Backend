@@ -40,7 +40,6 @@ export default {
     async createUser(req, res, next) {
 
         const errors = validationResult(req).formatWith(errorFormatter);
-        // const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json(
                 {
@@ -74,41 +73,51 @@ export default {
     },
 
     async updateUser(req, res, next) {
-        const errorFormatter = ({ msg, param, value }) => {
-            return {
-                [param]: {
-                    msg,
-                    value
-                }
-            }
-        };
         const errors = validationResult(req).formatWith(errorFormatter);
         // const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json(
-
                 {
                     success: false,
                     message: "invalid validation",
                     errors: errors.array()
                 });
         }
-        const { username, email, password } = req.body;
 
-        const hasPassword = await argon2.hash(password);
+        const { username, email, password } = req.body;
+        const id = req.params.id;
+        const user = await prisma.user.findFirst({
+            where : {
+                id
+            }
+        });
+        // cek data user
+        if (!user) return next(createError(404, "User not found"));
+
+        let hasPassword;
+        // cek apakah user mengirimkan pasword
+        if (password === "" || password === null) {
+            hasPassword = user.password;
+        } else {
+            hasPassword = await argon2.hash(password)
+        }
+
         try {
-            const user = await prisma.user.create({
+            const user = await prisma.user.update({
                 data: {
                     username,
                     email,
                     password: hasPassword,
                 },
+                where: {
+                    id
+                }
             });
-            return res.status(201).json(
+            return res.status(200).json(
                 {
                     success: true,
                     data: user,
-                    message: "Register Berhasil"
+                    message: "User Updated"
                 }
             );
         } catch (error) {
@@ -159,7 +168,7 @@ export default {
 
             res.status(200).json({
                 success: true,
-                message: "User deleting",
+                message: "User Deleted",
             });
         } catch (error) {
             next(error);

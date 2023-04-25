@@ -38,6 +38,17 @@ Content-Type: application/json
 }
 
 ###
+PATCH http://localhost:5000/v1/users/a83b0223-a70b-46dd-8580-24b5406e1a90
+Content-Type: application/json
+
+{
+    "username":"coba1 updated", 
+    "email":"coba1@gmail.com", 
+    "password":"", 
+    "confPassword":""
+}
+
+###
 GET http://localhost:5000/v1/users/a83b0223-a70b-46dd-8580-24b5406e1a90
 
 
